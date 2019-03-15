@@ -35,8 +35,8 @@ public class ToolBar extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        emailProfile = (TextView)findViewById(R.id.emailProfile);
-        emailProfile.setText(getIntent().getExtras().getString("Email"));
+//        emailProfile = (TextView)findViewById(R.id.emailProfile);
+//        emailProfile.setText(getIntent().getExtras().getString("Email"));
 
 
 
