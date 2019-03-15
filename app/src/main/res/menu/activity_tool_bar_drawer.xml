@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_create"
+            android:icon="@drawable/ic_create"
+            android:title="Skapa En Happening" />
+        <item
+            android:id="@+id/nav_calendar"
+            android:icon="@drawable/ic_calendar"
+            android:title="Kalender" />
+        <item
+            android:id="@+id/nav_program"
+            android:icon="@drawable/ic_myevents"
+            android:title="Mina Happenings" />
+        <item
+            android:id="@+id/nav_find"
+            android:icon="@drawable/ic_location"
+            android:title="Hitta Happenings Nära Dig" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Inställningar" />
+    </group>
+
+    <item android:title="Sprid Happenings">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Dela " />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Skicka" />
+        </menu>
+    </item>
+
+</menu>
