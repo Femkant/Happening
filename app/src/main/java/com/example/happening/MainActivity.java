@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     Button facebookBtn;
     Button emailBtn;
+    EditText emailLogIn;
+    EditText passwordLogIn;
     CallbackManager callbackManager;
     ToolBar tb;
     PopupWindow popUp;
@@ -74,26 +77,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = inflater.inflate(R.layout.popup_wndow, null);
-                int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                boolean focusable = true;
-                final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-                popupView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        popupWindow.dismiss();
-                        return true;
-                    }
-                });
+            signInEmail();
 
             }
         });
 
-        //ALLT NEDANFÖR ÄR FACEBOOKKNAPPEN
+        TextView registerTextBtn = (TextView)findViewById(R.id.registerTextBtn);
+        registerTextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(MainActivity.this, RegisterEmailActivity.class);
+                startActivityForResult(myIntent, 0);
+
+            }
+        });
+
+
 
         facebookBtn = (Button) findViewById(R.id.facebookBtn);
         facebookBtn.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +132,30 @@ public class MainActivity extends AppCompatActivity {
         if (user != null){
             updateUI();
         }
+    }
+
+    public void signInEmail(){
+
+        emailLogIn = (EditText)findViewById(R.id.emailLogIn);
+        passwordLogIn = (EditText)findViewById(R.id.passwordLogIn);
+
+
+        (auth.signInWithEmailAndPassword(emailLogIn.getText().toString(), passwordLogIn.getText().toString()))
+        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+
+                    Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
+                    Intent myIntent = new Intent(MainActivity.this, ToolBar.class);
+                    startActivityForResult(myIntent, 0);
+                }
+                else {
+                    Log.e("ERROR", task.getException().toString());
+                    Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
 
