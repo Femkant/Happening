@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':play-services-places-16.0.0', ':cardview-v7-28.0.0-alpha1'

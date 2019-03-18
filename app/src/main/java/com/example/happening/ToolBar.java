@@ -104,7 +104,8 @@ public class ToolBar extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_create) {
-            // Hantera de olika navigeringsknapparna
+            Intent myIntent = new Intent(this, CreateEvent.class);
+            startActivityForResult(myIntent, 0);
         } else if (id == R.id.nav_calendar) {
 
             auth.signOut();

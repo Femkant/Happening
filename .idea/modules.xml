@@ -3,10 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Happening.iml" filepath="$PROJECT_DIR$/Happening.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Happening.iml" filepath="$PROJECT_DIR$/Happening.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Happening2.iml" filepath="$PROJECT_DIR$/Happening2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cardview-v7-28.0.0-alpha1/cardview-v7-28.0.0-alpha1.iml" filepath="$PROJECT_DIR$/cardview-v7-28.0.0-alpha1/cardview-v7-28.0.0-alpha1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/play-services-places-16.0.0/play-services-places-16.0.0.iml" filepath="$PROJECT_DIR$/play-services-places-16.0.0/play-services-places-16.0.0.iml" />
     </modules>
   </component>
 </project>

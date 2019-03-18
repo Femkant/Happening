@@ -13,7 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".findhappeningsActivity" />
         <activity android:name=".RegisterEmailActivity" />
         <activity android:name=".MainEventActivity" />
         <activity
@@ -51,6 +50,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name=".CreateEvent" />
     </application>
 
 </manifest>
