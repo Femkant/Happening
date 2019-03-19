@@ -1,6 +1,5 @@
 package com.example.happening;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,35 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.login.LoginManager;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-public class ToolBar extends AppCompatActivity
+public class MyHappenings extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    FirebaseAuth auth;
-    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tool_bar);
+        setContentView(R.layout.activity_my_happenings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        NavigationView nv = (NavigationView) findViewById(R.id.nav_view);
-        View view = nv.getHeaderView(0);
-        TextView nameTextView = (TextView) view.findViewById(R.id.nameTextView);
-
-        nameTextView.setText(user.getEmail());
-
-
-        getSupportActionBar().setTitle("Happenings");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -60,11 +40,7 @@ public class ToolBar extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        
-
-
     }
-
 
     @Override
     public void onBackPressed() {
@@ -79,7 +55,7 @@ public class ToolBar extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.tool_bar, menu);
+        getMenuInflater().inflate(R.menu.my_happenings, menu);
         return true;
     }
 
@@ -104,20 +80,11 @@ public class ToolBar extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_create) {
-            Intent myIntent = new Intent(this, CreateEvent.class);
-            startActivityForResult(myIntent, 0);
-        } else if (id == R.id.nav_calendar) {
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
 
-            auth.signOut();
-            LoginManager.getInstance().logOut();
-
-
-        } else if (id == R.id.nav_program) {
-            Intent myIntent = new Intent(this, MyHappenings.class);
-            startActivityForResult(myIntent, 0);
-
-        } else if (id == R.id.nav_find){
+        } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 
@@ -130,22 +97,5 @@ public class ToolBar extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-        FirebaseUser user = auth.getCurrentUser();
-
-        if (user == null){
-            updateUI();
-        }
-    }
-
-    private void updateUI() {
-
-        Toast.makeText(ToolBar.this, "You're logged out ", Toast.LENGTH_LONG).show();
-        Intent myIntent = new Intent(ToolBar.this, MainActivity.class);
-        startActivityForResult(myIntent, 0);
     }
 }

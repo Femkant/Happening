@@ -100,4 +100,13 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="facebook_app_id">458393861363915</string>
     <string name="fb_login_protocol_scheme">fb458393861363915</string>
+    <string name="create_event">Create Event</string>
+    <string name="time_format">Time</string>
+    <string name="city">City</string>
+    <string name="name">Happening Name</string>
+    <string name="date">Date</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_my_happenings">MyHappenings</string>
 </resources>

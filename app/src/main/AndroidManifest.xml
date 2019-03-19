@@ -11,9 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".changePwActivity"></activity>
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".RegisterEmailActivity" />
+        <activity android:name=".RegisterEmailActivity"></activity>
         <activity android:name=".MainEventActivity" />
         <activity
             android:name=".ToolBar"
