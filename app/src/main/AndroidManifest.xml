@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".RegisterEmailActivity"></activity>
-        <activity android:name=".MainEventActivity" />
         <activity
             android:name=".ToolBar"
             android:label="@string/title_activity_tool_bar"
@@ -45,6 +44,12 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name=".CreateEvent" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".changePwActivity" />
+        <activity android:name=".MyHappenings"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
 
 </manifest>

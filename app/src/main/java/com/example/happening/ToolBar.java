@@ -121,6 +121,9 @@ public class ToolBar extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
 
+            Intent i = new Intent(ToolBar.this, SettingsActivity.class);
+            startActivityForResult(i, 0);
+
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
