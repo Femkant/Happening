@@ -24,7 +24,6 @@ public class ToolBar extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     FirebaseAuth auth;
     FirebaseUser user;
-    private TextView emailProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +34,14 @@ public class ToolBar extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        emailProfile = (TextView)findViewById(R.id.emailProfile);
-//        emailProfile.setText(getIntent().getExtras().getString("Email"));
+        NavigationView nv = (NavigationView) findViewById(R.id.nav_view);
+        View view = nv.getHeaderView(0);
+        TextView nameTextView = (TextView) view.findViewById(R.id.nameTextView);
+
+        nameTextView.setText(user.getEmail());
 
 
-
-        getSupportActionBar().setTitle("Dina Happenings");
+        getSupportActionBar().setTitle("Happenings");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

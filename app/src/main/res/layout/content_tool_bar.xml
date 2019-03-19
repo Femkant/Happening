@@ -18,7 +18,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="120dp"
         android:gravity="center_horizontal"
-        android:text="Relevant events near you!"
+        android:text="Happenings"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"

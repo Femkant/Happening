@@ -6,37 +6,37 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_create"
-            android:icon="@drawable/ic_create"
-            android:title="Skapa En Happening" />
-        <item
-            android:id="@+id/nav_calendar"
-            android:icon="@drawable/ic_calendar"
-            android:title="Kalender" />
+            android:id="@+id/nav_find"
+            android:icon="@drawable/ic_logo"
+            android:title="Happenings" />
         <item
             android:id="@+id/nav_program"
             android:icon="@drawable/ic_myevents"
-            android:title="Mina Happenings" />
+            android:title="My Happenings" />
         <item
-            android:id="@+id/nav_find"
-            android:icon="@drawable/ic_location"
-            android:title="Hitta Happenings Nära Dig" />
+            android:id="@+id/nav_create"
+            android:icon="@drawable/ic_create"
+            android:title="Create new happening" />
+        <item
+            android:id="@+id/nav_calendar"
+            android:icon="@drawable/ic_calendar"
+            android:title="Calendar" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Inställningar" />
+            android:title="Settings" />
     </group>
 
-    <item android:title="Sprid Happenings">
+    <item android:title="Share Happenings">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Dela " />
+                android:title="Share" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Skicka" />
+                android:title="Send" />
         </menu>
     </item>
 
