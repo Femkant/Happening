@@ -113,7 +113,8 @@ public class ToolBar extends AppCompatActivity
 
 
         } else if (id == R.id.nav_program) {
-
+            Intent myIntent = new Intent(this, MyHappenings.class);
+            startActivityForResult(myIntent, 0);
 
         } else if (id == R.id.nav_find){
 
