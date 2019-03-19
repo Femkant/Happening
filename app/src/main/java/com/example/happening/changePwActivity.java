@@ -50,6 +50,7 @@ public class changePwActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
                                         Toast.makeText(changePwActivity.this, "Password Changed successfully", Toast.LENGTH_LONG).show();
+                                        finish();
                                     }else {
                                         Toast.makeText(changePwActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                     }

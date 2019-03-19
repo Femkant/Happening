@@ -17,7 +17,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Button logOutBtn;
     private Button changePwBtn;
-    FirebaseAuth auth;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

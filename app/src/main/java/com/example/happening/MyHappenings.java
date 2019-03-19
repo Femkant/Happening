@@ -1,5 +1,6 @@
 package com.example.happening;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,12 +13,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MyHappenings extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    FirebaseAuth auth;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_happenings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -41,6 +51,13 @@ public class MyHappenings extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        NavigationView nv = (NavigationView) findViewById(R.id.nav_view);
+        View view = nv.getHeaderView(0);
+        TextView nameTextView = (TextView) view.findViewById(R.id.nameTextView);
+        nameTextView.setText(user.getEmail());
+
+        getSupportActionBar().setTitle("My happenings");
     }
 
     @Override
@@ -56,7 +73,7 @@ public class MyHappenings extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my_happenings, menu);
+        getMenuInflater().inflate(R.menu.tool_bar, menu);
         return true;
     }
 
@@ -81,14 +98,26 @@ public class MyHappenings extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_create) {
+            Intent myIntent = new Intent(this, CreateEvent.class);
+            startActivityForResult(myIntent, 0);
+        } else if (id == R.id.nav_calendar) {
 
-        } else if (id == R.id.nav_slideshow) {
+            auth.signOut();
+            LoginManager.getInstance().logOut();
+
+
+        } else if (id == R.id.nav_program) {
+
+
+
+        } else if (id == R.id.nav_find) {
+            finish();
+
 
         } else if (id == R.id.nav_manage) {
-
+            Intent i = new Intent(MyHappenings.this, SettingsActivity.class);
+            startActivityForResult(i, 0);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -99,4 +128,5 @@ public class MyHappenings extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

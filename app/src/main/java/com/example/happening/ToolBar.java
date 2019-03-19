@@ -1,5 +1,6 @@
 package com.example.happening;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -37,7 +38,6 @@ public class ToolBar extends AppCompatActivity
         NavigationView nv = (NavigationView) findViewById(R.id.nav_view);
         View view = nv.getHeaderView(0);
         TextView nameTextView = (TextView) view.findViewById(R.id.nameTextView);
-
         nameTextView.setText(user.getEmail());
 
 
@@ -107,17 +107,16 @@ public class ToolBar extends AppCompatActivity
         if (id == R.id.nav_create) {
             Intent myIntent = new Intent(this, CreateEvent.class);
             startActivityForResult(myIntent, 0);
+
         } else if (id == R.id.nav_calendar) {
-
-            auth.signOut();
-            LoginManager.getInstance().logOut();
-
 
         } else if (id == R.id.nav_program) {
             Intent myIntent = new Intent(this, MyHappenings.class);
             startActivityForResult(myIntent, 0);
 
         } else if (id == R.id.nav_find){
+//            Intent myIntent = new Intent(this, Toolbar.class);
+//            startActivityForResult(myIntent, 0);
 
         } else if (id == R.id.nav_manage) {
 
