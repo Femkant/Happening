@@ -30,13 +30,23 @@ public class ToolBar extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tool_bar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        emailProfile = (TextView)findViewById(R.id.emailProfile);
-        emailProfile.setText(getIntent().getExtras().getString("Email"));
+        if(auth == null){
+
+            Intent myIntent = new Intent(ToolBar.this, MainActivity.class);
+            startActivityForResult(myIntent, 0);
+
+            Toast.makeText(ToolBar.this, "Logged out", Toast.LENGTH_SHORT).show();
+
+        }
+
+
 
 
 
@@ -107,8 +117,6 @@ public class ToolBar extends AppCompatActivity
             // Hantera de olika navigeringsknapparna
         } else if (id == R.id.nav_calendar) {
 
-            auth.signOut();
-            LoginManager.getInstance().logOut();
 
 
         } else if (id == R.id.nav_program) {
@@ -117,6 +125,9 @@ public class ToolBar extends AppCompatActivity
         } else if (id == R.id.nav_find){
 
         } else if (id == R.id.nav_manage) {
+
+            Intent i = new Intent(ToolBar.this, SettingsActivity.class);
+            startActivityForResult(i, 0);
 
         } else if (id == R.id.nav_share) {
 
