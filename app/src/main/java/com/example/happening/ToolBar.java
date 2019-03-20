@@ -1,10 +1,9 @@
 package com.example.happening;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,7 +16,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -25,6 +23,7 @@ public class ToolBar extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     FirebaseAuth auth;
     FirebaseUser user;
+    private static FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +31,20 @@ public class ToolBar extends AppCompatActivity
         user = auth.getCurrentUser();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tool_bar);
+
+        fragmentManager = getSupportFragmentManager();
+
+        if (findViewById(R.id.fragment_holder) != null) {
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            MainHappenings mainHappenings = new MainHappenings();
+            fragmentTransaction.add(R.id.fragment_holder, mainHappenings, null);
+            fragmentTransaction.commit();
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -43,14 +56,6 @@ public class ToolBar extends AppCompatActivity
 
         getSupportActionBar().setTitle("Happenings");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -60,7 +65,6 @@ public class ToolBar extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        
 
 
     }
@@ -103,30 +107,72 @@ public class ToolBar extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        fragmentManager = getSupportFragmentManager();
 
-        if (id == R.id.nav_create) {
-            Intent myIntent = new Intent(this, CreateEvent.class);
-            startActivityForResult(myIntent, 0);
+        if (id == R.id.nav_createhappenings) {
+            if (findViewById(R.id.fragment_holder) != null) {
+
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                CreateHappening createHappening = new CreateHappening();
+                fragmentTransaction.replace(R.id.fragment_holder, createHappening, null);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
 
         } else if (id == R.id.nav_calendar) {
+            if (findViewById(R.id.fragment_holder) != null) {
 
-        } else if (id == R.id.nav_program) {
-            Intent myIntent = new Intent(this, MyHappenings.class);
-            startActivityForResult(myIntent, 0);
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                MainHappenings mainHappenings = new MainHappenings();
+                fragmentTransaction.replace(R.id.fragment_holder, mainHappenings, null);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        } else if (id == R.id.nav_myhappenings) {
+            if (findViewById(R.id.fragment_holder) != null) {
 
-        } else if (id == R.id.nav_find){
-//            Intent myIntent = new Intent(this, Toolbar.class);
-//            startActivityForResult(myIntent, 0);
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                MyHappenings myHappenings = new MyHappenings();
+                fragmentTransaction.replace(R.id.fragment_holder, myHappenings, null);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        } else if (id == R.id.nav_happenings) {
+            if (findViewById(R.id.fragment_holder) != null) {
 
-        } else if (id == R.id.nav_manage) {
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                MainHappenings mainHappenings = new MainHappenings();
+                fragmentTransaction.replace(R.id.fragment_holder, mainHappenings, null);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        } else if (id == R.id.nav_settings) {
+            if (findViewById(R.id.fragment_holder) != null) {
 
-            Intent i = new Intent(ToolBar.this, SettingsActivity.class);
-            startActivityForResult(i, 0);
-
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                SettingsFragment settingsFragment = new SettingsFragment();
+                fragmentTransaction.replace(R.id.fragment_holder, settingsFragment, null);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
         } else if (id == R.id.nav_share) {
+            if (findViewById(R.id.fragment_holder) != null) {
 
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                MainHappenings mainHappenings = new MainHappenings();
+                fragmentTransaction.replace(R.id.fragment_holder, mainHappenings, null);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
         } else if (id == R.id.nav_send) {
+            if (findViewById(R.id.fragment_holder) != null) {
 
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                MainHappenings mainHappenings = new MainHappenings();
+                fragmentTransaction.replace(R.id.fragment_holder, mainHappenings, null);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -134,12 +180,13 @@ public class ToolBar extends AppCompatActivity
         return true;
     }
 
+
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         FirebaseUser user = auth.getCurrentUser();
 
-        if (user == null){
+        if (user == null) {
             updateUI();
         }
     }
