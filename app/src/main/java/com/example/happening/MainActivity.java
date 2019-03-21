@@ -193,5 +193,6 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this, "You're logged in ", Toast.LENGTH_LONG).show();
         Intent myIntent = new Intent(MainActivity.this, ToolBar.class);
         startActivityForResult(myIntent, 0);
+
     }
 }
