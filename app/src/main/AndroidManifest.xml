@@ -4,14 +4,17 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <application
+        <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_square"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterEmailActivity"></activity>
+        <activity android:name=".RegisterEmailActivity">
+
+
+        </activity>
         <activity
             android:name=".ToolBar"
             android:label="@string/title_activity_tool_bar"
@@ -44,6 +47,11 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
+            <provider android:authorities="com.facebook.app.FacebookContentProvider{APP_ID}"
+                android:name="com.facebook.FacebookContentProvider"
+                android:exported="true"/>
+
     </application>
 
 </manifest>
