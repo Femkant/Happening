@@ -24,6 +24,7 @@ public class Happening implements Serializable {
         this.time = time;
         this.city = city;
         this.description = description;
+
     }
 
     public String getUserName() {
