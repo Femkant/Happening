@@ -1,10 +1,14 @@
 package com.example.happening;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.share.DeviceShareDialog;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
@@ -36,6 +41,8 @@ public class ToolBar extends AppCompatActivity
         user = auth.getCurrentUser();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tool_bar);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -162,15 +169,19 @@ public class ToolBar extends AppCompatActivity
             }
         } else if (id == R.id.nav_share) {
 
-            if (ShareDialog.canShow(ShareLinkContent.class)) {
+            AccessToken accessToken = AccessToken.getCurrentAccessToken();
+            if (accessToken != null) {
 
-                ShareLinkContent content = new ShareLinkContent.Builder()
-                        .setContentUrl(Uri.parse("https://developers.facebook.com"))
-                        .build();
-                shareDialog.show(content);
+                if (ShareDialog.canShow(ShareLinkContent.class)) {
 
+                    ShareLinkContent content = new ShareLinkContent.Builder()
+                            .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                            .build();
+                    shareDialog.show(content);
+                }
+                } else {
+                Toast.makeText(this, "Must be logged in with Facebook! Or ass crack", Toast.LENGTH_SHORT).show();
             }
-
 
         } else if (id == R.id.nav_send) {
             if (findViewById(R.id.fragment_holder) != null) {
