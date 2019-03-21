@@ -108,7 +108,14 @@ public class ToolBar extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            if (findViewById(R.id.fragment_holder) != null) {
+
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                SettingsFragment settingsFragment = new SettingsFragment();
+                fragmentTransaction.replace(R.id.fragment_holder, settingsFragment, null);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -120,6 +127,7 @@ public class ToolBar extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         fragmentManager = getSupportFragmentManager();
+
 
         if (id == R.id.nav_createhappenings) {
             if (findViewById(R.id.fragment_holder) != null) {
@@ -180,19 +188,16 @@ public class ToolBar extends AppCompatActivity
                     shareDialog.show(content);
                 }
                 } else {
-                Toast.makeText(this, "Must be logged in with Facebook! Or ass crack", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Must be logged in with Facebook!", Toast.LENGTH_SHORT).show();
             }
 
         } else if (id == R.id.nav_send) {
-            if (findViewById(R.id.fragment_holder) != null) {
-
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                MainHappenings mainHappenings = new MainHappenings();
-                fragmentTransaction.replace(R.id.fragment_holder, mainHappenings, null);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+            Intent mailIntent = new Intent(Intent.ACTION_VIEW);
+            Uri data = Uri.parse("mailto:?subject=" + "Happening"+ "&body=" + "" + "&to=" + "");
+            mailIntent.setData(data);
+            startActivity(Intent.createChooser(mailIntent, "Send mail..."));
             }
-        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
