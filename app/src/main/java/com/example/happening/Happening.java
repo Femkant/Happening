@@ -14,6 +14,7 @@ public class Happening {
         this.time = time;
         this.city = city;
         this.description = description;
+
     }
 
     public String getName() {

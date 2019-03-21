@@ -1,6 +1,7 @@
 package com.example.happening;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +17,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.share.DeviceShareDialog;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -24,6 +28,7 @@ public class ToolBar extends AppCompatActivity
     FirebaseAuth auth;
     FirebaseUser user;
     private static FragmentManager fragmentManager;
+    ShareDialog shareDialog = new ShareDialog(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,14 +161,17 @@ public class ToolBar extends AppCompatActivity
                 fragmentTransaction.commit();
             }
         } else if (id == R.id.nav_share) {
-            if (findViewById(R.id.fragment_holder) != null) {
 
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                MainHappenings mainHappenings = new MainHappenings();
-                fragmentTransaction.replace(R.id.fragment_holder, mainHappenings, null);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+            if (ShareDialog.canShow(ShareLinkContent.class)) {
+
+                ShareLinkContent content = new ShareLinkContent.Builder()
+                        .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                        .build();
+                shareDialog.show(content);
+
             }
+
+
         } else if (id == R.id.nav_send) {
             if (findViewById(R.id.fragment_holder) != null) {
 
