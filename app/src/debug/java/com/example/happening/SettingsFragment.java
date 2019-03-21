@@ -1,8 +1,10 @@
 package com.example.happening;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -21,7 +24,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SettingsFragment extends Fragment {
 
     private FirebaseAuth auth;
-    private Button logOutBtn;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -44,18 +46,34 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
 
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_holder, changePasswordFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                    ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
+
+                    FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_holder, changePasswordFragment, null);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
 
 
+                }
+
+        });
+
+        final Button logOutBtn = (Button) view.findViewById(R.id.logOutBtn);
+
+        logOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               auth.signOut();
+                LoginManager.getInstance().logOut();
+
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
 
             }
         });
-
                     return view;
 
 
