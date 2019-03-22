@@ -12,6 +12,9 @@ import java.net.Socket;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * For connecting to server and send DB info
+ */
 public class SocketConnect extends AsyncTask<Void, Void, Boolean>{
 
     private final String HOST = "192.168.0.11";
@@ -74,10 +77,6 @@ public class SocketConnect extends AsyncTask<Void, Void, Boolean>{
         return retVal;
     }
 
-    protected final void connect() {
-
-    }
-
     /**
      * Add happening to database
      * @param happening to be added
@@ -87,6 +86,11 @@ public class SocketConnect extends AsyncTask<Void, Void, Boolean>{
             command = "addEventToDb";
     }
 
+    /**
+     * Writes to server
+     * @return true if successful
+     * @throws IOException
+     */
     private boolean addhappeningInt() throws IOException{
         oOS.writeObject(command);
         oOS.flush();

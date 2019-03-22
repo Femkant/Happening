@@ -8,11 +8,15 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +33,13 @@ import com.example.happening.DbStuff.Data;
 import com.example.happening.DbStuff.SocketConnect;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import static android.support.v4.os.LocaleListCompat.create;
@@ -53,6 +60,7 @@ public class CreateHappening extends Fragment {
 
     public CreateHappening() {
         // Required empty public constructor
+
     }
 
 
@@ -63,6 +71,7 @@ public class CreateHappening extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_create_happening, container, false);
 
         editTextDate = (EditText) view.findViewById(R.id.editTextDate);
+
 
         ImageButton buttonDate = view.findViewById(R.id.buttonDate);
         Date date = Calendar.getInstance().getTime();

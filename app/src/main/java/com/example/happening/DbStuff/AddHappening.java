@@ -7,11 +7,18 @@ import com.example.happening.Happening;
 
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Class to run thread to add happenning to DB
+ */
 public class AddHappening implements Runnable {
     private Happening happening;
     private final Activity mainActivity;
 
-
+    /**
+     * Constructor Add happening
+     * @param happening to add
+     * @param activity activity for toast
+     */
     public AddHappening(Happening happening, Activity activity){
         this.happening = happening;
         this.mainActivity = activity;
