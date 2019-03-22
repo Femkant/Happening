@@ -31,7 +31,19 @@ public class MainHappenings extends Fragment {
 
         ArrayList<Happening> list = new ArrayList<>();
         list.add(new Happening("User name","Happening name","2014/01/02","18:45","Hässleholm","Greta ska fisa"));
-        list.add(new Happening("User name","Happening name","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("TannaMakarn","Bacon","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
         HappeningListAdapter adapter = new HappeningListAdapter(getContext(), R.layout.adapter_view_happening, list);
         mListView.setAdapter(adapter);
 
