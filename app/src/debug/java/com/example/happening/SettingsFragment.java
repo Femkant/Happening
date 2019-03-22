@@ -2,13 +2,12 @@ package com.example.happening;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +31,7 @@ public class SettingsFragment extends Fragment {
 
     private FirebaseAuth auth;
     private boolean ipBtnVisible = false;
+    public static boolean refreshFlag;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -44,13 +44,15 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
 
         final View view = inflater.inflate(R.layout.fragment_settings, container, false);
-
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Settings");
-
         auth = FirebaseAuth.getInstance();
 
-        final Button changePwBtn = (Button) view.findViewById(R.id.changePwBtn);
+        if (!MySharedPref.getInstance().getSharedPref().loadNightModeState()){
+            ConstraintLayout constraintLayout =(ConstraintLayout)view.findViewById(R.id.bg);
+            constraintLayout.setBackgroundResource(R.drawable.bg);
+        }
 
+        final Button changePwBtn = (Button) view.findViewById(R.id.changePwBtn);
         changePwBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -136,6 +138,13 @@ public class SettingsFragment extends Fragment {
                     saveIP.setVisibility(View.VISIBLE);
                     ipAdress.setVisibility(View.VISIBLE);
                     ipAdress.setText(SocketConnect.HOST);
+                    if (MySharedPref.getInstance().getSharedPref().loadNightModeState()){
+                        ipAdress.setHintTextColor(Color.parseColor("#ffffff"));
+                        toggleIp.setTextColor(Color.parseColor("#ffffff"));
+                    }else {
+                        ipAdress.setHintTextColor(Color.parseColor("#000000"));
+                        toggleIp.setTextColor(Color.parseColor("#000000"));
+                    }
                     ipBtnVisible = true;
                 }
             }
@@ -165,6 +174,7 @@ public class SettingsFragment extends Fragment {
         }
 
     private void restartApp() {
+        refreshFlag = true;
         Intent intent = getActivity().getIntent();
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_NO_ANIMATION);

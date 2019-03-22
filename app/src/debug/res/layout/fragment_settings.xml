@@ -2,29 +2,12 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundcolor"
     tools:context=".SettingsFragment">
 
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Settings"
-        android:textSize="36sp"
-        android:textColor="@color/happeningRed"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.204" />
 
     <Button
         android:id="@+id/changePwBtn"
@@ -36,6 +19,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="?attr/buttoncolor"
         android:text="Change Password"
         android:textColor="?attr/textcolor"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -55,8 +39,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="?attr/buttoncolor"
         android:text="Log out"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?attr/textcolor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -74,12 +59,19 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Switch"
+        android:text="DARK MODE"
+        android:textColor="?attr/cardbackgroundcolor"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:thumbTint="@color/happeningRed"
+        android:trackTint="@color/happeningRed"
+        android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.365" />
+
     <EditText
         android:id="@+id/ipEditText"
         android:layout_width="240dp"
@@ -93,6 +85,7 @@
         android:ems="10"
         android:hint="IP address 192.168.0.1"
         android:inputType="textPersonName"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +99,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="?attr/buttoncolor"
         android:text="Hide IP"
+        android:textColor="?attr/cardbackgroundcolor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -117,7 +112,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="?attr/buttoncolor"
         android:text="Save IP"
+        android:textColor="?attr/textcolor"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
