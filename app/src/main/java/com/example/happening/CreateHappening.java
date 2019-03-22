@@ -1,14 +1,11 @@
 package com.example.happening;
 
-
-
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,8 +46,6 @@ public class CreateHappening extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_create_happening, container, false);
-
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Create happening");
 
         editTextDate = (EditText) view.findViewById(R.id.editTextDate);
 

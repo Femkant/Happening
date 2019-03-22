@@ -1,6 +1,5 @@
 package com.example.happening;
 
-
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.happening.DbStuff.SocketConnect;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -26,6 +26,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,7 +55,10 @@ public class MainActivity extends AppCompatActivity {
         tb = new ToolBar();
         callbackManager = CallbackManager.Factory.create();
 
+
+
         emailBtn = (Button)findViewById(R.id.emailBtn);
+
         emailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Read saved ipaddress
+        SocketConnect.HOST = new ReadWriteIP().readFromFile(this);
     }
     @Override
     public void onStart(){
