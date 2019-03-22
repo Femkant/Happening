@@ -17,7 +17,7 @@ import static android.content.ContentValues.TAG;
  */
 public class SocketConnect extends AsyncTask<Void, Void, Boolean>{
 
-    private final String HOST = "192.168.0.11";
+    private final String HOST = "192.168.10.246";
     private final int PORT = 6969;
     private Socket socket;
     private ObjectOutputStream oOS;
