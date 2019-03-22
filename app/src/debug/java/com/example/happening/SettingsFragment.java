@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,10 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.happening.DbStuff.SocketConnect;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -27,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SettingsFragment extends Fragment {
 
     private FirebaseAuth auth;
+    private boolean ipBtnVisible = false;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -103,10 +108,58 @@ public class SettingsFragment extends Fragment {
                 }
             }
         });
+        final Button toggleIp = (Button) view.findViewById(R.id.toggleIP);
+        final Button saveIP = (Button) view.findViewById(R.id.saveIP);
+        final TextView ipAdress = (TextView) view.findViewById(R.id.ipEditText);
+
+        ipAdress.setGravity(Gravity.CENTER);
+        ipAdress.setVisibility(View.INVISIBLE);
+
+        saveIP.setVisibility(View.INVISIBLE);
+
+        toggleIp.setText("Show IP");
+        toggleIp.getBackground().setAlpha(0);
+
+        toggleIp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ipBtnVisible){
+                    toggleIp.setText("Show IP");
+                    toggleIp.getBackground().setAlpha(0);
+                    saveIP.setVisibility(View.INVISIBLE);
+                    ipAdress.setVisibility(View.INVISIBLE);
+                    ipBtnVisible = false;
+                }
+                else {
+                    toggleIp.setText("Hide IP");
+                    toggleIp.getBackground().setAlpha(255);
+                    saveIP.setVisibility(View.VISIBLE);
+                    ipAdress.setVisibility(View.VISIBLE);
+                    ipAdress.setText(SocketConnect.HOST);
+                    ipBtnVisible = true;
+                }
+            }
+        });
+
+        saveIP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message;
+                if(new ReadWriteIP().writeToFile(ipAdress.getText().toString(), getContext())) {
+                    SocketConnect.HOST = ipAdress.getText().toString();
+                    message = "Ip is saved";
+                }
+                else {
+                    message = "Error IP is not saved";
+                }
+
+                Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+            }
+        });
 
 
 
-                    return view;
+        return view;
 
 
         }
