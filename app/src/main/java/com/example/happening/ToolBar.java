@@ -1,9 +1,13 @@
 package com.example.happening;
 
+
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +17,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.facebook.AccessToken;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -24,13 +31,24 @@ public class ToolBar extends AppCompatActivity
     FirebaseAuth auth;
     FirebaseUser user;
     private static FragmentManager fragmentManager;
+    ShareDialog shareDialog = new ShareDialog(this);
+    private SharedPref sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPref = new SharedPref(this);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tool_bar);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        MySharedPref.getInstance().setSharedPref(sharedPref);
+        if (sharedPref.loadNightModeState()) {
+            setTheme(R.style.darkTheme);
+        } else { setTheme(R.style.AppTheme);
+        }
 
         fragmentManager = getSupportFragmentManager();
 
@@ -66,7 +84,6 @@ public class ToolBar extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
     }
 
 
@@ -96,7 +113,14 @@ public class ToolBar extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            if (findViewById(R.id.fragment_holder) != null) {
+
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                SettingsFragment settingsFragment = new SettingsFragment();
+                fragmentTransaction.replace(R.id.fragment_holder, settingsFragment, null);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -108,6 +132,7 @@ public class ToolBar extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         fragmentManager = getSupportFragmentManager();
+
 
         if (id == R.id.nav_createhappenings) {
             if (findViewById(R.id.fragment_holder) != null) {
@@ -156,24 +181,29 @@ public class ToolBar extends AppCompatActivity
                 fragmentTransaction.commit();
             }
         } else if (id == R.id.nav_share) {
-            if (findViewById(R.id.fragment_holder) != null) {
 
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                MainHappenings mainHappenings = new MainHappenings();
-                fragmentTransaction.replace(R.id.fragment_holder, mainHappenings, null);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+            AccessToken accessToken = AccessToken.getCurrentAccessToken();
+            if (accessToken != null) {
+
+                if (ShareDialog.canShow(ShareLinkContent.class)) {
+
+
+                    ShareLinkContent content = new ShareLinkContent.Builder()
+                            .setContentUrl(Uri.parse("www.facebook.com"))
+                            .build();
+                    shareDialog.show(content);
+                }
+                } else {
+                Toast.makeText(this, "Must be logged in with Facebook!", Toast.LENGTH_SHORT).show();
             }
+
         } else if (id == R.id.nav_send) {
-            if (findViewById(R.id.fragment_holder) != null) {
-
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                MainHappenings mainHappenings = new MainHappenings();
-                fragmentTransaction.replace(R.id.fragment_holder, mainHappenings, null);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+            Intent mailIntent = new Intent(Intent.ACTION_VIEW);
+            Uri data = Uri.parse("mailto:?subject=" + "Happening"+ "&body=" + "" + "&to=" + "");
+            mailIntent.setData(data);
+            startActivity(Intent.createChooser(mailIntent, "Send mail..."));
             }
-        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

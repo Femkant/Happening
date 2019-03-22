@@ -1,15 +1,11 @@
 package com.example.happening;
 
-
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +15,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
+import com.example.happening.DbStuff.AddHappening;
+import com.google.firebase.auth.FirebaseAuth;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import static android.support.v4.os.LocaleListCompat.create;
 
 
 /**
@@ -42,6 +37,7 @@ public class CreateHappening extends Fragment {
 
     public CreateHappening() {
         // Required empty public constructor
+
     }
 
 
@@ -52,6 +48,7 @@ public class CreateHappening extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_create_happening, container, false);
 
         editTextDate = (EditText) view.findViewById(R.id.editTextDate);
+
 
         ImageButton buttonDate = view.findViewById(R.id.buttonDate);
         Date date = Calendar.getInstance().getTime();
@@ -160,9 +157,17 @@ public class CreateHappening extends Fragment {
         }
 
             if (check) {
-                Happening happening = new Happening(name, date, time, city, description);
-                errorString = "You successfully created a Happening!";
-                callAlert(errorString);
+                Happening happening = new Happening(
+                        FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                        name,
+                        date,
+                        time,
+                        city,
+                        description);
+                addHappeningToDB(happening);
+                //Replaced with toast in AddHappening
+//                errorString = "You successfully created a Happening!";
+//                callAlert(errorString);
             } else if (!check) {
                 callAlert(errorString);
             }
@@ -225,5 +230,13 @@ public class CreateHappening extends Fragment {
         }
 
         return containsDigit;
+    }
+
+    private boolean addHappeningToDB(final Happening happening){
+        Thread th = new Thread(new AddHappening(happening, getActivity()));
+
+        th.start();
+
+        return false;
     }
 }
