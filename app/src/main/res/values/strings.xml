@@ -106,6 +106,20 @@
     <string name="name">Happening Name</string>
     <string name="date">Date</string>
     <string name="des">Add description here..</string>
+    <string name="changepas">Change password</string>
+    <string name="logout">Log out</string>
+    <string name="dark">DARK MODE </string>
+    <string name="ip">IP address 192.168.0.1</string>
+    <string name="hide">Hide IP</string>
+    <string name="save">Save IP</string>
+    <string name="oldP">Enter old password</string>
+    <string name="newP">Enter new password</string>
+    <string name="loginEmail">LOG IN WITH EMAIL</string>
+    <string name="loginFb">Log in with facebook</string>
+    <string name="email">Email</string>
+    <string name="register">Register</string>
+    <string name="password">Password</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
