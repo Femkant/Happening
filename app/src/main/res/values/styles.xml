@@ -5,13 +5,14 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#2196F3</item>
-        <item name="colorPrimaryDark">#1976D2</item>
+        <item name="colorPrimaryDark">#80000000</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="backgroundcolor">#ffffff</item>
         <item name="cardbackgroundcolor">#000000</item>
         <item name="textcolor">#000000</item>
         <item name="tintcolor">#000000</item>
-        <item name="buttoncolor">#868484</item>
+        <item name="buttoncolor">#C9C9C9</item>
+
 
 
     </style>
@@ -20,9 +21,9 @@
     <style name="darkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#212121</item>
-        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorPrimaryDark">#80000000</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="backgroundcolor">#303030</item>
+        <item name="backgroundcolor">#D2303030</item>
         <item name="cardbackgroundcolor">#FFFFFF</item>
         <item name="textcolor">#ffffff</item>
         <item name="tintcolor">#ffffff</item>
@@ -38,7 +39,6 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 
 
 </resources>

@@ -48,7 +48,7 @@ public class SettingsFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
 
         if (!MySharedPref.getInstance().getSharedPref().loadNightModeState()){
-            ConstraintLayout constraintLayout =(ConstraintLayout)view.findViewById(R.id.bg);
+            ConstraintLayout constraintLayout =(ConstraintLayout)view.findViewById(R.id.bg_settings);
             constraintLayout.setBackgroundResource(R.drawable.bg);
         }
 

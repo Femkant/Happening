@@ -149,16 +149,6 @@ public class ToolBar extends AppCompatActivity
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }
-
-            } else if (id == R.id.nav_calendar) {
-                if (findViewById(R.id.fragment_holder) != null) {
-
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    MainHappenings mainHappenings = new MainHappenings();
-                    fragmentTransaction.replace(R.id.fragment_holder, mainHappenings, null);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                }
             } else if (id == R.id.nav_myhappenings) {
                 if (findViewById(R.id.fragment_holder) != null) {
 
