@@ -78,6 +78,9 @@ public class ToolBar extends AppCompatActivity
             TextView nameTextView = (TextView) view.findViewById(R.id.nameTextView);
             nameTextView.setText(user.getEmail());
 
+        if (MySharedPref.getInstance().getSharedPref().loadNightModeState()) {
+            nv.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
 
             getSupportActionBar().setTitle("Happenings");
 

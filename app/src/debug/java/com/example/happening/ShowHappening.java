@@ -9,12 +9,18 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -23,7 +29,7 @@ import android.widget.TextView;
 public class ShowHappening extends Fragment {
 
     private Button attendButton;
-    private Button attendersButton;
+    private ImageButton attendersButton;
 
     public ShowHappening() {
         // Required empty public constructor
@@ -68,11 +74,11 @@ public class ShowHappening extends Fragment {
         attendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                attendbuttonClicked();
+                attendButtonClicked();
             }
         });
 
-        attendersButton = (Button) view.findViewById(R.id.attendersButton);
+        attendersButton = (ImageButton) view.findViewById(R.id.attendersButton);
         attendersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,10 +86,21 @@ public class ShowHappening extends Fragment {
             }
         });
 
+        final Button commentsTitle = (Button) view.findViewById(R.id.commentsTitle);
+        commentsTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commentsTitle.setText("Comments");
+                showComments();
+            }
+        });
+
+
+
         return view;
     }
 
-    private void attendbuttonClicked() {
+    private void attendButtonClicked() {
         attendButton.setText("Attending!");
         attendButton.setTextColor(Color.parseColor("#008000"));
     }
@@ -103,5 +120,43 @@ public class ShowHappening extends Fragment {
                     }
                 });
         alert.show();
+    }
+
+    public static void getListViewSize(ListView myListView) {
+        ListAdapter myListAdapter = myListView.getAdapter();
+        if (myListAdapter == null) {
+            //do nothing return null
+            return;
+        }
+        //set listAdapter in loop for getting final size
+        int totalHeight = 0;
+        for (int size = 0; size < myListAdapter.getCount(); size++) {
+            View listItem = myListAdapter.getView(size, null, myListView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight() + 60;
+        }
+        //setting listview item in adapter
+        ViewGroup.LayoutParams params = myListView.getLayoutParams();
+        params.height = totalHeight + (myListView.getDividerHeight() * (myListAdapter.getCount() - 1));
+        myListView.setLayoutParams(params);
+        // print height of adapter on log
+        Log.i("height of listItem:", String.valueOf(totalHeight));
+    }
+
+    private void showComments(){
+        ListView mListView = (ListView) getView().findViewById(R.id.commentsListView);
+        final ArrayList<Comment> commentsList = new ArrayList<>();
+
+        commentsList.add(new Comment("hestveda@gmail.se", "Jag ser fram emot detta enormt mycket.", "2019/03/25"));
+        commentsList.add(new Comment("KarlSvensson@gmail.se", "Jag heter Karl. Vissa kallar mig kalle. Ingen aning varför^^.", "2019/03/25"));
+        commentsList.add(new Comment("BeritBerg@Telia.se", "Säljer ni korv?.", "2019/03/25"));
+        commentsList.add(new Comment("MaritBultsax@hotmail.com", "Min bultsax är tyvärr sönder. Den gick i två bitar när jag" +
+                "bet i det i förrgår. Jag funderar starkt på att köpa en ny, har ni sånna till salu på denna happening? I så fall kan ni räkna med" +
+                "att jag kommer dit och köper en eller två!", "2019/03/24"));
+
+        final CommentListAdapter adapter = new CommentListAdapter(getContext(), R.layout.adapter_view_comment, commentsList);
+        mListView.setAdapter(adapter);
+
+        getListViewSize(mListView);
     }
 }
