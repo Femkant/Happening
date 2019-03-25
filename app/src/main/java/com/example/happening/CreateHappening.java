@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import com.example.happening.DbStuff.AddHappening;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -58,61 +60,38 @@ public class CreateHappening extends Fragment {
         }
 
         editTextDate = (EditText) view.findViewById(R.id.editTextDate);
-
+        editTextDate.setClickable(true);
+        editTextDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickDate();
+            }
+        });
 
         ImageButton buttonDate = view.findViewById(R.id.buttonDate);
-        Date date = Calendar.getInstance().getTime();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        final int year = cal.get(Calendar.YEAR);
-        final int month = cal.get(Calendar.MONTH);
-        final int day = cal.get(Calendar.DAY_OF_MONTH);
-
         buttonDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int day) {
-                                editTextDate.setText(year + "/" + (month + 1) + "/" + day);
-                            }
-                        }, year, month, day);
-
-                datePickerDialog.show();
+                pickDate();
             }
         });
 
         editTextTime = (EditText) view.findViewById(R.id.editTextTime);
+        editTextTime.setClickable(true);
+        editTextTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickTime();
+            }
+        });
 //        ImageButton buttonTime = (ImageButton) view.findViewById(R.id.buttonTime);
 
         ImageButton timePickerDialogButton = (ImageButton) view.findViewById(R.id.buttonTime);
+
         timePickerDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-
-                        String time = String.format("%02d:%02d", hour, minute);
-
-                        timePickerValueTextView = (TextView) getView().findViewById(R.id.editTextTime);
-                        timePickerValueTextView.setText(time);
-                    }
-                };
-
-                Calendar now = Calendar.getInstance();
-                int hour = now.get(java.util.Calendar.HOUR_OF_DAY);
-                int minute = now.get(java.util.Calendar.MINUTE);
-
-                // Whether show time in 24 hour format or not.
-                boolean is24Hour = true;
-
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), onTimeSetListener, hour, minute, is24Hour);
-
-                timePickerDialog.setTitle("Please select time.");
-
-                timePickerDialog.show();
+                pickTime();
             }
 
         });
@@ -127,6 +106,54 @@ public class CreateHappening extends Fragment {
             }
         });
         return view;
+    }
+
+    /**
+     * Pick time
+     */
+    private void pickTime(){
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+
+                String time = String.format("%02d:%02d", hour, minute);
+
+                timePickerValueTextView = (TextView) getView().findViewById(R.id.editTextTime);
+                timePickerValueTextView.setText(time);
+            }
+        };
+
+        Calendar now = Calendar.getInstance();
+        int hour = now.get(java.util.Calendar.HOUR_OF_DAY);
+        int minute = now.get(java.util.Calendar.MINUTE);
+
+        // Whether show time in 24 hour format or not.
+        boolean is24Hour = true;
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), onTimeSetListener, hour, minute, is24Hour);
+
+        timePickerDialog.setTitle("Please select time.");
+
+        timePickerDialog.show();
+    }
+
+    private void pickDate(){
+        Date date = Calendar.getInstance().getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        final int year = cal.get(Calendar.YEAR);
+        final int month = cal.get(Calendar.MONTH);
+        final int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        editTextDate.setText(year + "-" + (month + 1) + "-" + day);
+                    }
+                }, year, month, day);
+
+        datePickerDialog.show();
     }
 
     public void createButtonPressed(View view) {
@@ -205,7 +232,7 @@ public class CreateHappening extends Fragment {
 
 
     private boolean isValidDate(String date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         boolean flag = true;
 
         try {
@@ -219,7 +246,6 @@ public class CreateHappening extends Fragment {
 
     private boolean isValidTime(String time) {
         boolean flag = true;
-
         if (!time.matches("^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")) {
             flag = false;
         }
