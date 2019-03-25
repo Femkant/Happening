@@ -3,12 +3,15 @@ package com.example.happening;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +41,13 @@ public class ChangePasswordFragment extends Fragment {
         // Inflate the layout for this fragment
 
         final View view = inflater.inflate(R.layout.fragment_change_password, container, false);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Change password");
+
+        if (!MySharedPref.getInstance().getSharedPref().loadNightModeState()){
+            ConstraintLayout constraintLayout =(ConstraintLayout) view.findViewById(R.id.bg_change);
+            constraintLayout.setBackgroundResource(R.drawable.bg);
+        }
 
         auth = FirebaseAuth.getInstance();
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

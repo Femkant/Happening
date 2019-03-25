@@ -5,13 +5,16 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -46,6 +49,13 @@ public class CreateHappening extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_create_happening, container, false);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Create happening");
+
+        if (!MySharedPref.getInstance().getSharedPref().loadNightModeState()){
+            ConstraintLayout constraintLayout =(ConstraintLayout) view.findViewById(R.id.bg_create);
+            constraintLayout.setBackgroundResource(R.drawable.bg);
+        }
 
         editTextDate = (EditText) view.findViewById(R.id.editTextDate);
 

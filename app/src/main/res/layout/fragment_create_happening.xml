@@ -2,11 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
-
-    android:id="@+id/linearLayout"
+    android:id="@+id/bg_create"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundcolor"
     android:orientation="vertical">
 
 
@@ -22,6 +21,7 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/name"
+        android:textColor="?attr/textcolor"
         android:inputType="textPersonName"
         android:minHeight="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,13 +46,14 @@
         android:hint="@string/date"
         android:inputType="date"
         android:minHeight="35dp"
+        android:textColor="?attr/textcolor"
         android:textIsSelectable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.159" />
+        app:layout_constraintVertical_bias="0.158" />
 
     <EditText
         android:id="@+id/editTextTime"
@@ -66,16 +67,17 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:focusable="false"
-        android:hint="Time"
+        android:hint="@string/time"
         android:inputType="time"
         android:minHeight="35dp"
+        android:textColor="?attr/textcolor"
         android:textIsSelectable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.262" />
 
     <EditText
         android:id="@+id/editTextCity"
@@ -92,12 +94,13 @@
         android:imeOptions="actionSearch"
         android:inputType="textPersonName"
         android:minHeight="35dp"
+        android:textColor="?attr/textcolor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35000002" />
+        app:layout_constraintVertical_bias="0.364" />
 
     <EditText
         android:id="@+id/textViewDescription"
@@ -111,8 +114,9 @@
         android:layout_marginBottom="136dp"
         android:background="@drawable/textview_border"
         android:gravity="left"
-        android:hint="Add description here.."
+        android:hint="@string/des"
         android:padding="10dp"
+        android:textColor="?attr/textcolor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.486"
@@ -158,7 +162,7 @@
         app:layout_constraintHorizontal_bias="0.243"
         app:layout_constraintStart_toEndOf="@+id/editTextTime"
         app:layout_constraintTop_toBottomOf="@+id/buttonDate"
-        app:layout_constraintVertical_bias="0.061" />
+        app:layout_constraintVertical_bias="0.122" />
 
     <Button
         android:id="@+id/buttonCreate"
@@ -167,7 +171,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="40dp"
         android:text="@string/create_event"
-        android:textColor="@color/colorPrimary"
+        android:backgroundTint="?attr/buttoncolor"
+        android:textColor="?attr/textcolor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

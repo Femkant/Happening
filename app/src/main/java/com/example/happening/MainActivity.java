@@ -1,7 +1,9 @@
 package com.example.happening;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         tb = new ToolBar();
         callbackManager = CallbackManager.Factory.create();
 
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         emailBtn = (Button)findViewById(R.id.emailBtn);
 

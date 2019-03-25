@@ -1,11 +1,14 @@
 package com.example.happening;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -30,6 +33,11 @@ public class MainHappenings extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_main_happenings, container, false);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Happenings");
+
+        if (!MySharedPref.getInstance().getSharedPref().loadNightModeState()){
+            FrameLayout frameLayout =(FrameLayout) view.findViewById(R.id.bg_main);
+            frameLayout.setBackgroundResource(R.drawable.bg);
+        }
 
         ListView mListView = (ListView) view.findViewById(R.id.listView);
 
