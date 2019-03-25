@@ -4,10 +4,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
@@ -44,7 +46,11 @@ public class MainHappenings extends Fragment {
         final ArrayList<Happening> list = new ArrayList<>();
         list.add(new Happening("User name","Happening name","2014/01/02","18:45","Hässleholm","Greta ska fisa"));
         list.add(new Happening("TannaMakarn","Bacon","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
-        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
+        list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an " +
+                "Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an " +
+                "Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an " +
+                "Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an " +
+                "Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an Baconregn på 57:an "));
         list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
         list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
         list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
@@ -83,7 +89,26 @@ public class MainHappenings extends Fragment {
             }
         });
         test.start();
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Happening happening = list.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("object", happening);
+
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                ShowHappening showHappening = new ShowHappening();
+                showHappening.setArguments(bundle);
+                fragmentTransaction.replace(R.id.fragment_holder, showHappening, null);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+
         return view;
     }
+
 
 }
