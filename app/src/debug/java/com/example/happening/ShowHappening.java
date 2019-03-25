@@ -30,6 +30,9 @@ public class ShowHappening extends Fragment {
 
     private Button attendButton;
     private ImageButton attendersButton;
+    private boolean commentsShowing = false;
+
+
 
     public ShowHappening() {
         // Required empty public constructor
@@ -90,8 +93,15 @@ public class ShowHappening extends Fragment {
         commentsTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                commentsTitle.setText("Comments");
-                showComments();
+                if (commentsShowing){
+                    commentsTitle.setText("Show comments");
+                    commentsShowing = false;
+                    hideComments();
+                }else {
+                    commentsTitle.setText("Hide comments");
+                    commentsShowing = true;
+                    showComments();
+                }
             }
         });
 
@@ -144,8 +154,8 @@ public class ShowHappening extends Fragment {
     }
 
     private void showComments(){
-        ListView mListView = (ListView) getView().findViewById(R.id.commentsListView);
-        final ArrayList<Comment> commentsList = new ArrayList<>();
+         ListView mListView = (ListView) getView().findViewById(R.id.commentsListView);
+         ArrayList<Comment> commentsList = new ArrayList<>();
 
         commentsList.add(new Comment("hestveda@gmail.se", "Jag ser fram emot detta enormt mycket.", "2019/03/25"));
         commentsList.add(new Comment("KarlSvensson@gmail.se", "Jag heter Karl. Vissa kallar mig kalle. Ingen aning varför^^.", "2019/03/25"));
@@ -153,7 +163,17 @@ public class ShowHappening extends Fragment {
         commentsList.add(new Comment("MaritBultsax@hotmail.com", "Min bultsax är tyvärr sönder. Den gick i två bitar när jag" +
                 "bet i det i förrgår. Jag funderar starkt på att köpa en ny, har ni sånna till salu på denna happening? I så fall kan ni räkna med" +
                 "att jag kommer dit och köper en eller två!", "2019/03/24"));
+         final CommentListAdapter adapter = new CommentListAdapter(getContext(), R.layout.adapter_view_comment, commentsList);
+        mListView.setAdapter(adapter);
 
+        getListViewSize(mListView);
+    }
+
+    private void hideComments(){
+        ListView mListView = (ListView) getView().findViewById(R.id.commentsListView);
+        ArrayList<Comment> commentsList = new ArrayList<>();
+
+        commentsList.clear();
         final CommentListAdapter adapter = new CommentListAdapter(getContext(), R.layout.adapter_view_comment, commentsList);
         mListView.setAdapter(adapter);
 
