@@ -41,7 +41,7 @@ public class MainHappenings extends Fragment {
 
         ListView mListView = (ListView) view.findViewById(R.id.listView);
 
-        ArrayList<Happening> list = new ArrayList<>();
+        final ArrayList<Happening> list = new ArrayList<>();
         list.add(new Happening("User name","Happening name","2014/01/02","18:45","Hässleholm","Greta ska fisa"));
         list.add(new Happening("TannaMakarn","Bacon","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
         list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
@@ -56,10 +56,33 @@ public class MainHappenings extends Fragment {
         list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
         list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
         list.add(new Happening("Lora","Päronplock","2018/01/02","18:45","Ängelholm","Baconregn på 57:an"));
-        HappeningListAdapter adapter = new HappeningListAdapter(getContext(), R.layout.adapter_view_happening, list);
+
+        final HappeningListAdapter adapter = new HappeningListAdapter(getContext(), R.layout.adapter_view_happening, list);
         mListView.setAdapter(adapter);
 
+        Thread test = new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                }
+                catch (Exception e){
 
+                }
+
+                for(int i = 8; i>0;i--){
+                    list.remove(i);
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+            }
+        });
+        test.start();
         return view;
     }
 

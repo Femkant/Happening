@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
@@ -49,7 +50,7 @@ public class SocketConnect extends AsyncTask<Void, Void, Boolean>{
                             //Added sucessfully
                             retVal = true;
                         break;
-                    case "addUserToDb":
+                    case "GetAllHappenings":
                         break;
 
                 }
@@ -97,5 +98,19 @@ public class SocketConnect extends AsyncTask<Void, Void, Boolean>{
         oOS.writeObject(happening);
         oOS.flush();
         return true;
+    }
+
+    public void getAllHappenings(){
+        command = "GetAllHappenings";
+
+    }
+
+    public void getAllHappeningsInt() throws IOException,ClassNotFoundException{
+        oOS.writeObject(command);
+        oOS.flush();
+        oOS.writeObject(command);
+        oOS.flush();
+        ArrayList<Happening> list;
+        list = (ArrayList<Happening>)oIS.readObject();
     }
 }

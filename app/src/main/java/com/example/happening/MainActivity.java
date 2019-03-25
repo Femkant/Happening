@@ -3,7 +3,6 @@ package com.example.happening;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Read saved ipaddress
-        SocketConnect.HOST = new ReadWriteIP().readFromFile(this);
+        SocketConnect.HOST = new ReadWrite().readFromFile(this);
     }
     @Override
     public void onStart(){

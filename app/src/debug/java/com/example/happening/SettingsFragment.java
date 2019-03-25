@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -154,7 +153,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String message;
-                if(new ReadWriteIP().writeToFile(ipAdress.getText().toString(), getContext())) {
+                if(new ReadWrite().writeToFile(ipAdress.getText().toString(), getContext())) {
                     SocketConnect.HOST = ipAdress.getText().toString();
                     message = "Ip is saved";
                 }
