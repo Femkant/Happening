@@ -15,7 +15,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:nestedScrollingEnabled="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,55 +77,55 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/date"
-                            android:layout_width="180dp"
-                            android:layout_height="50dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@drawable/textview_border"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:hint="@string/date"
-                            android:inputType="text"
-                            android:minHeight="35dp"
-                            android:textColor="?attr/textcolor"
-                            android:textSize="20sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.166" />
+                        <android.support.constraint.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/time"
-                            android:layout_width="180dp"
-                            android:layout_height="50dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@drawable/textview_border"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:hint="@string/time"
-                            android:inputType="textPersonName"
-                            android:minHeight="35dp"
-                            android:textColor="?attr/textcolor"
-                            android:textSize="20sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="1.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.165" />
+                            <TextView
+                                android:id="@+id/date"
+                                android:layout_width="140dp"
+                                android:layout_height="50dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginLeft="16dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/textview_border"
+                                android:gravity="center"
+                                android:hint="@string/date"
+                                android:inputType="text"
+                                android:minHeight="35dp"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:textColor="?attr/textcolor"
+                                android:textSize="20sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.166" />
+
+                            <TextView
+                                android:id="@+id/time"
+                                android:layout_width="140dp"
+                                android:layout_height="50dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/textview_border"
+                                android:gravity="center"
+                                android:hint="@string/time"
+                                android:inputType="textPersonName"
+                                android:minHeight="35dp"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:textColor="?attr/textcolor"
+                                android:textSize="20sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.165" />
+                        </android.support.constraint.ConstraintLayout>
+
                     </LinearLayout>
 
                     <TextView
@@ -199,37 +200,29 @@
                             android:id="@+id/attendersButton"
                             android:layout_width="43dp"
                             android:layout_height="40dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginLeft="20dp"
                             android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"
                             android:layout_marginBottom="8dp"
                             android:background="@drawable/ic_myevents"
                             android:backgroundTint="?attr/textcolor"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.062"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <Button
                             android:id="@+id/attend"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginLeft="8dp"
+                            android:layout_height="50dp"
                             android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
                             android:layout_marginBottom="8dp"
                             android:backgroundTint="?attr/buttoncolor"
                             android:text="@string/attend"
                             android:textColor="?attr/textcolor"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.965"
-                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.0" />
 
@@ -239,11 +232,10 @@
 
                 <Button
                     android:id="@+id/commentsTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="64dp"
-                    android:background="@drawable/textview_border_small"
+                    android:layout_marginTop="15dp"
                     android:backgroundTint="?attr/buttoncolor"
                     android:clickable="true"
                     android:focusable="true"
@@ -255,7 +247,7 @@
                     android:textSize="18sp"
                     android:textStyle="italic" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -267,8 +259,26 @@
                         android:layout_height="wrap_content"
                         tools:layout_editor_absoluteX="8dp"
                         tools:layout_editor_absoluteY="443dp" />
-                </LinearLayout>
 
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/addCommentBtn"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:backgroundTint="?attr/buttoncolor"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Comment"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/textcolor"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

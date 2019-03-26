@@ -3,40 +3,46 @@ package com.example.happening.DbStuff;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
+import com.example.happening.Comment;
+import com.example.happening.CommentListAdapter;
 import com.example.happening.Happening;
-
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * Class to run thread to add happenning to DB
- */
-public class AddHappening implements Runnable {
-    private Happening happening;
+public class GetComments implements Runnable {
     private final Activity mainActivity;
+    private final Happening happening;
+    private AtomicBoolean getRequest;
 
-    /**
-     * Constructor Add happening
-     * @param happening to add
-     * @param activity activity for toast
-     */
-    public AddHappening(Happening happening, Activity activity){
+    public GetComments(Activity mainActivity, Happening happening, AtomicBoolean getRequest) {
+        this.mainActivity = mainActivity;
         this.happening = happening;
-        this.mainActivity = activity;
+        this.getRequest = getRequest;
     }
 
     @Override
     public void run() {
         final ReturnValue retVal;
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(mainActivity != null) {
+                    Toast.makeText(mainActivity, "Downloading comments", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         SocketConnect sC = new SocketConnect();
-        sC.addHappening(happening);
+        sC.getComments(happening);
         AsyncTask aT = sC.execute();
-
         try {
+            String retValMessage = "Something is very wrong";
             retVal = (ReturnValue) aT.get();
-            String retValMessage = "";
+
             switch(retVal){
                 case SUCCESS:
-                    retValMessage = "Happening added Successfully!";
+                    retValMessage = "Download complete!";
                     break;
 
                 case NO_CONN_TO_DB:
@@ -58,14 +64,14 @@ public class AddHappening implements Runnable {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(mainActivity != null) {
-                        Toast.makeText(mainActivity, message, Toast.LENGTH_LONG).show();
-                    }
+                    getRequest.set(false);
+                    Toast.makeText(mainActivity, message, Toast.LENGTH_LONG).show();
                 }
             });
         }
         catch (InterruptedException | ExecutionException e){
             e.printStackTrace();
+            getRequest.set(false);
         }
     }
 }

@@ -30,6 +30,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
         TextView userName;
         TextView comment;
         TextView date;
+        TextView time;
     }
 
 
@@ -39,8 +40,9 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
         String userName = getItem(position).getUserName();
         String comment = getItem(position).getComment();
         String date = getItem(position).getDate();
+        String time = getItem(position).getTime();
 
-        Comment comment1 = new Comment(userName, comment, date);
+        Comment mComment = new Comment(userName, comment, date, time);
 
         final View result;
 
@@ -53,6 +55,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
             holder.userName = (TextView) convertView.findViewById(R.id.cUserName);
             holder.comment = (TextView) convertView.findViewById(R.id.cComment);
             holder.date = (TextView) convertView.findViewById(R.id.cDate);
+            holder.time = (TextView) convertView.findViewById(R.id.cTime);
 
             result = convertView;
 
@@ -68,9 +71,11 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
         result.startAnimation(animation);
         lastPosition = position;
 
-        holder.userName.setText(comment1.getUserName());
-        holder.comment.setText(comment1.getComment());
-        holder.date.setText(comment1.getDate());
+        holder.userName.setText(mComment.getUserName());
+        holder.comment.setText(mComment.getComment());
+        holder.date.setText(mComment.getDate());
+        holder.time.setText(mComment.getTime());
+
 
 
         return convertView;

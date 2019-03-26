@@ -1,7 +1,9 @@
 package com.example.happening;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,14 +15,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.happening.DbStuff.Data;
+import com.example.happening.DbStuff.DbActions;
+import com.example.happening.DbStuff.GetAttendRequest;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
@@ -31,8 +41,11 @@ public class ShowHappening extends Fragment {
     private Button attendButton;
     private ImageButton attendersButton;
     private boolean commentsShowing = false;
-
-
+    private Happening happening;
+    private AtomicBoolean attendRequestSent = new AtomicBoolean(false);
+    private AtomicBoolean addCommentRequestSent = new AtomicBoolean(false);
+    private AtomicBoolean getCommentRequestSent = new AtomicBoolean(false);
+    private Button addCommentBtn;
 
     public ShowHappening() {
         // Required empty public constructor
@@ -53,7 +66,7 @@ public class ShowHappening extends Fragment {
         }
 
         Bundle bundle = getArguments();
-        Happening happening = (Happening) bundle.getSerializable("object");
+        happening = (Happening) bundle.getSerializable("object");
 
         TextView title = (TextView) view.findViewById(R.id.title);
         title.setText(happening.getName());
@@ -72,8 +85,19 @@ public class ShowHappening extends Fragment {
 
         description.setMovementMethod(new ScrollingMovementMethod());
 
-
+        DbActions.getInstance().getComments(happening,getActivity(),getCommentRequestSent);
         attendButton = (Button) view.findViewById(R.id.attend);
+
+        if(happening.isAttending()){
+            attendButton.setText("Unattend");
+            attendButton.setTextColor(Color.parseColor("#800000"));
+        }
+
+        else{
+            attendButton.setText("Attend");
+            attendButton.setTextColor(Color.parseColor("#008000"));
+        }
+
         attendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +113,9 @@ public class ShowHappening extends Fragment {
             }
         });
 
+        addCommentBtn = (Button) view.findViewById(R.id.addCommentBtn);
+        addCommentBtn.setVisibility(View.INVISIBLE);
+
         final Button commentsTitle = (Button) view.findViewById(R.id.commentsTitle);
         commentsTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,11 +123,18 @@ public class ShowHappening extends Fragment {
                 if (commentsShowing){
                     commentsTitle.setText("Show comments");
                     commentsShowing = false;
+                    addCommentBtn.setVisibility(View.INVISIBLE);
                     hideComments();
                 }else {
-                    commentsTitle.setText("Hide comments");
-                    commentsShowing = true;
-                    showComments();
+                    if(getCommentRequestSent.get()) {
+                        Toast.makeText(getContext(),"Comments are downloading.. try in a second", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        commentsTitle.setText("Hide comments");
+                        commentsShowing = true;
+                        addCommentBtn.setVisibility(View.VISIBLE);
+                        showComments();
+                    }
                 }
             }
         });
@@ -110,9 +144,26 @@ public class ShowHappening extends Fragment {
         return view;
     }
 
+    /**
+     * Attend button action
+     */
     private void attendButtonClicked() {
-        attendButton.setText("Attending!");
-        attendButton.setTextColor(Color.parseColor("#008000"));
+        if(happening.getUserName().compareTo(FirebaseAuth.getInstance().getCurrentUser().getEmail()) != 0) {
+            if (!attendRequestSent.get()) {
+                GetAttendRequest attendRequest = new GetAttendRequest(
+                        FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                        happening.getId());
+                attendRequestSent.set(true);
+                if (happening.isAttending()) {
+                    DbActions.getInstance().deleteAttend(getActivity(), attendRequest, attendRequestSent, attendButton, happening);
+                } else {
+                    DbActions.getInstance().addAttend(getActivity(), attendRequest, attendRequestSent, attendButton, happening);
+                }
+            }
+        }
+        else{
+            Toast.makeText(getContext(),"This is your Happening... cannot un-attend!",Toast.LENGTH_LONG).show();
+        }
     }
 
     private void attendersButtonClicked() {
@@ -134,10 +185,12 @@ public class ShowHappening extends Fragment {
 
     public static void getListViewSize(ListView myListView) {
         ListAdapter myListAdapter = myListView.getAdapter();
+
         if (myListAdapter == null) {
             //do nothing return null
             return;
         }
+
         //set listAdapter in loop for getting final size
         int totalHeight = 0;
         for (int size = 0; size < myListAdapter.getCount(); size++) {
@@ -147,23 +200,35 @@ public class ShowHappening extends Fragment {
         }
         //setting listview item in adapter
         ViewGroup.LayoutParams params = myListView.getLayoutParams();
-        params.height = totalHeight + (myListView.getDividerHeight() * (myListAdapter.getCount() - 1));
+        int height = totalHeight + (myListView.getDividerHeight() * (myListAdapter.getCount() - 1));
+        height = (height>2000)? 2000:height;
+        params.height = height;
         myListView.setLayoutParams(params);
         // print height of adapter on log
         Log.i("height of listItem:", String.valueOf(totalHeight));
     }
 
-    private void showComments(){
+    private void showComments() {
          ListView mListView = (ListView) getView().findViewById(R.id.commentsListView);
-         ArrayList<Comment> commentsList = new ArrayList<>();
+         Data.getInstance().acquireWrite(this.toString());
+             ArrayList<Comment> commentsList = Data.getInstance().getComments();
 
-        commentsList.add(new Comment("hestveda@gmail.se", "Jag ser fram emot detta enormt mycket.", "2019/03/25"));
-        commentsList.add(new Comment("KarlSvensson@gmail.se", "Jag heter Karl. Vissa kallar mig kalle. Ingen aning varför^^.", "2019/03/25"));
-        commentsList.add(new Comment("BeritBerg@Telia.se", "Säljer ni korv?.", "2019/03/25"));
-        commentsList.add(new Comment("MaritBultsax@hotmail.com", "Min bultsax är tyvärr sönder. Den gick i två bitar när jag" +
-                "bet i det i förrgår. Jag funderar starkt på att köpa en ny, har ni sånna till salu på denna happening? I så fall kan ni räkna med" +
-                "att jag kommer dit och köper en eller två!", "2019/03/24"));
-         final CommentListAdapter adapter = new CommentListAdapter(getContext(), R.layout.adapter_view_comment, commentsList);
+             //Check if list is correct
+             if(commentsList.size()>0){
+                 if(happening.getId() != commentsList.get(0).getHappeningId()){
+                     commentsList.clear();
+                 }
+             }
+            final CommentListAdapter adapter = new CommentListAdapter(getContext(), R.layout.adapter_view_comment, commentsList);
+        Data.getInstance().releaseWrite(this.toString());
+
+        addCommentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(getActivity(), adapter,"Enter comment");
+            }
+        });
+
         mListView.setAdapter(adapter);
 
         getListViewSize(mListView);
@@ -178,5 +243,47 @@ public class ShowHappening extends Fragment {
         mListView.setAdapter(adapter);
 
         getListViewSize(mListView);
+    }
+
+
+    private void showDialog(final Activity activity, final CommentListAdapter commentListAdapter, String msg){
+
+        final Dialog dialog = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.popup_postcomment);
+
+
+        final TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
+        text.setText(msg);
+
+        final EditText commentTxt = (EditText) dialog.findViewById(R.id.commentPopUpTextView);
+
+        Button postBtn = (Button) dialog.findViewById(R.id.postCommentBtn);
+        final ShowHappening showHappening = this;
+        postBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String text = commentTxt.getText().toString();
+
+                if(text.trim().length()>0 && text.length()<500){
+                    Comment comment = new Comment(happening.getId(), FirebaseAuth.getInstance().getCurrentUser().getEmail(),text,"Today","a while ago");
+                    DbActions.getInstance().addComment(comment,activity,commentListAdapter);
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        Button dialogButton2 = (Button) dialog.findViewById(R.id.cancelCommentBtn);
+        dialogButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
     }
 }

@@ -2,33 +2,38 @@ package com.example.happening.DbStuff;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
-import com.example.happening.Happening;
+
+import com.example.happening.Comment;
+import com.example.happening.CommentListAdapter;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * Class to run thread to add happenning to DB
- */
-public class AddHappening implements Runnable {
-    private Happening happening;
+public class AddComment implements Runnable {
+    private Comment comment;
     private final Activity mainActivity;
+    final private String TAG = this.toString();
+    private CommentListAdapter commentListAdapter;
 
     /**
      * Constructor Add happening
-     * @param happening to add
+     * @param comment to add
      * @param activity activity for toast
      */
-    public AddHappening(Happening happening, Activity activity){
-        this.happening = happening;
+    public AddComment(Comment comment, Activity activity, CommentListAdapter commentListAdapter){
+        this.comment = comment;
         this.mainActivity = activity;
+        this.commentListAdapter = commentListAdapter;
     }
 
     @Override
     public void run() {
+        Log.d(TAG, "run: ");
         final ReturnValue retVal;
         SocketConnect sC = new SocketConnect();
-        sC.addHappening(happening);
+        sC.addComment(comment);
         AsyncTask aT = sC.execute();
 
         try {
@@ -36,7 +41,7 @@ public class AddHappening implements Runnable {
             String retValMessage = "";
             switch(retVal){
                 case SUCCESS:
-                    retValMessage = "Happening added Successfully!";
+                    retValMessage = "Comment added Successfully!";
                     break;
 
                 case NO_CONN_TO_DB:
@@ -58,9 +63,15 @@ public class AddHappening implements Runnable {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(mainActivity != null) {
-                        Toast.makeText(mainActivity, message, Toast.LENGTH_LONG).show();
+                    if(retVal == ReturnValue.SUCCESS){
+                        Data.getInstance().acquireWrite(this.toString());
+                        Data.getInstance().getComments().add(comment);
+                        Data.getInstance().getUpdateCommentList().add(comment);
+                        Data.getInstance().releaseWrite(this.toString());
+                        commentListAdapter.notifyDataSetChanged();
                     }
+                    Toast.makeText(mainActivity, message, Toast.LENGTH_LONG).show();
+
                 }
             });
         }

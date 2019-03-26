@@ -7,25 +7,100 @@
     android:background="?attr/backgroundcolor"
     tools:context=".MyHappenings">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="tabian.com.listadapter.MainActivity">
 
 
+        <LinearLayout
+            android:id="@+id/linLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/textview_border"
+            android:backgroundTint="@color/colorPrimary"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|left"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/mySelectDate1EditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:background="@drawable/textview_border"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:minHeight="35dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="2019-3-15"
+                    android:textColor="?attr/textcolor"
+                    android:textIsSelectable="false" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:text="to"
+                    android:textColor="?attr/textcolor"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteY="10dp" />
+
+                <EditText
+                    android:id="@+id/mySelectDate2EditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/textview_border"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:minHeight="35dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="2019-3-15"
+                    android:textColor="?attr/textcolor"
+                    android:textIsSelectable="false" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/myGetSelectedBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="Get"
+                android:backgroundTint="?attr/buttoncolor"
+                android:textColor="?attr/textcolor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/linLayout"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="-5dp"
+            android:clickable="true"
             android:divider="@android:color/transparent"
             android:dividerHeight="8dp"
-            android:clickable="true"
             android:focusable="true"
-            android:padding="8dp"
-            />
+            android:padding="8dp" />
     </RelativeLayout>
 
 </FrameLayout>
