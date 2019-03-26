@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.example.happening.Comment;
 import com.example.happening.CommentListAdapter;
 import com.example.happening.Happening;
+
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -14,12 +15,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class GetComments implements Runnable {
     private final Activity mainActivity;
     private final Happening happening;
-    private AtomicBoolean getRequest;
+    private CommentListAdapter commentListAdapter;
 
-    public GetComments(Activity mainActivity, Happening happening, AtomicBoolean getRequest) {
+    public GetComments(Activity mainActivity, Happening happening, CommentListAdapter commentListAdapter) {
         this.mainActivity = mainActivity;
         this.happening = happening;
-        this.getRequest = getRequest;
+        this.commentListAdapter = commentListAdapter;
     }
 
     @Override
@@ -64,14 +65,22 @@ public class GetComments implements Runnable {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    getRequest.set(false);
+                    if(retVal == ReturnValue.SUCCESS){
+                        Data.getInstance().acquireWrite(this.toString());
+                            ArrayList<Comment> listToUpdate = Data.getInstance().getUpdateCommentList();
+                            listToUpdate.clear();
+                            for (Comment c: Data.getInstance().getComments()){
+                                listToUpdate.add(c);
+                            }
+                            commentListAdapter.notifyDataSetChanged();
+                        Data.getInstance().releaseWrite(this.toString());
+                    }
                     Toast.makeText(mainActivity, message, Toast.LENGTH_LONG).show();
                 }
             });
         }
         catch (InterruptedException | ExecutionException e){
             e.printStackTrace();
-            getRequest.set(false);
         }
     }
 }

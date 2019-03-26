@@ -16,16 +16,18 @@ public class AddComment implements Runnable {
     private final Activity mainActivity;
     final private String TAG = this.toString();
     private CommentListAdapter commentListAdapter;
+    private AtomicBoolean requestSent;
 
     /**
      * Constructor Add happening
      * @param comment to add
      * @param activity activity for toast
      */
-    public AddComment(Comment comment, Activity activity, CommentListAdapter commentListAdapter){
+    public AddComment(Comment comment, Activity activity, CommentListAdapter commentListAdapter, AtomicBoolean requestSent){
         this.comment = comment;
         this.mainActivity = activity;
         this.commentListAdapter = commentListAdapter;
+        this.requestSent = requestSent;
     }
 
     @Override
@@ -77,6 +79,9 @@ public class AddComment implements Runnable {
         }
         catch (InterruptedException | ExecutionException e){
             e.printStackTrace();
+        }
+        finally {
+            requestSent.set(false);
         }
     }
 }

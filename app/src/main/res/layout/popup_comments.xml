@@ -27,6 +27,7 @@
 
             <ListView
                 android:id="@+id/commentsListView"
+                android:background="@drawable/textview_border"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="100"/>
@@ -114,7 +115,7 @@
                     android:backgroundTint="?attr/buttoncolor"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:text="Cancel"
+                    android:text="Close"
                     android:textColor="?attr/textcolor"
                     android:textSize="20sp" />
 

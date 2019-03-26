@@ -66,14 +66,14 @@ public class DbActions {
         th.start();
     }
 
-    public void addComment(Comment comment, Activity activity,CommentListAdapter commentListAdapter){
-        Thread th = new Thread(new AddComment(comment,activity,commentListAdapter));
+    public void addComment(Comment comment, Activity activity,CommentListAdapter commentListAdapter, AtomicBoolean requestSent){
+        Thread th = new Thread(new AddComment(comment,activity,commentListAdapter,requestSent));
 
         th.start();
     }
 
-    public void getComments(Happening happening, Activity activity, AtomicBoolean getCommentRequest){
-        Thread th = new Thread(new GetComments(activity,happening,getCommentRequest ));
+    public void getComments(Happening happening, Activity activity, CommentListAdapter commentListAdapter){
+        Thread th = new Thread(new GetComments(activity,happening,commentListAdapter ));
 
         th.start();
     }

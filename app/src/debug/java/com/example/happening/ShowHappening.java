@@ -85,7 +85,7 @@ public class ShowHappening extends Fragment {
 
         description.setMovementMethod(new ScrollingMovementMethod());
 
-        DbActions.getInstance().getComments(happening,getActivity(),getCommentRequestSent);
+        //DbActions.getInstance().getComments(happening,getActivity(),getCommentRequestSent);
         attendButton = (Button) view.findViewById(R.id.attend);
 
         if(happening.isAttending()){
@@ -117,25 +117,28 @@ public class ShowHappening extends Fragment {
         addCommentBtn.setVisibility(View.INVISIBLE);
 
         final Button commentsTitle = (Button) view.findViewById(R.id.commentsTitle);
+        commentsTitle.setText("Show comments");
+
         commentsTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (commentsShowing){
-                    commentsTitle.setText("Show comments");
-                    commentsShowing = false;
-                    addCommentBtn.setVisibility(View.INVISIBLE);
-                    hideComments();
-                }else {
-                    if(getCommentRequestSent.get()) {
-                        Toast.makeText(getContext(),"Comments are downloading.. try in a second", Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        commentsTitle.setText("Hide comments");
-                        commentsShowing = true;
-                        addCommentBtn.setVisibility(View.VISIBLE);
-                        showComments();
-                    }
-                }
+                showDialog();
+//                if (commentsShowing) {
+//                    commentsTitle.setText("Show comments");
+//                    commentsShowing = false;
+//                    addCommentBtn.setVisibility(View.INVISIBLE);
+//                    hideComments();
+//                }else {
+//                    if(getCommentRequestSent.get()) {
+//                        Toast.makeText(getContext(),"Comments are downloading.. try in a second", Toast.LENGTH_LONG).show();
+//                    }
+//                    else {
+//                        commentsTitle.setText("Hide comments");
+//                        commentsShowing = true;
+//                        addCommentBtn.setVisibility(View.VISIBLE);
+//                        showComments();
+//                    }
+//                }
             }
         });
 
@@ -183,94 +186,109 @@ public class ShowHappening extends Fragment {
         alert.show();
     }
 
-    public static void getListViewSize(ListView myListView) {
-        ListAdapter myListAdapter = myListView.getAdapter();
+//    public static void getListViewSize(ListView myListView) {
+//        ListAdapter myListAdapter = myListView.getAdapter();
+//
+//        if (myListAdapter == null) {
+//            //do nothing return null
+//            return;
+//        }
+//
+//        //set listAdapter in loop for getting final size
+//        int totalHeight = 0;
+//        for (int size = 0; size < myListAdapter.getCount(); size++) {
+//            View listItem = myListAdapter.getView(size, null, myListView);
+//            listItem.measure(0, 0);
+//            totalHeight += listItem.getMeasuredHeight() + 60;
+//        }
+//        //setting listview item in adapter
+//        ViewGroup.LayoutParams params = myListView.getLayoutParams();
+//        int height = totalHeight + (myListView.getDividerHeight() * (myListAdapter.getCount() - 1));
+//        height = (height>2000)? 2000:height;
+//        params.height = height;
+//        myListView.setLayoutParams(params);
+//        // print height of adapter on log
+//        Log.i("height of listItem:", String.valueOf(totalHeight));
+//    }
+//
+//    private void showComments() {
+//         ListView mListView = (ListView) getView().findViewById(R.id.commentsListView);
+//         Data.getInstance().acquireWrite(this.toString());
+//             ArrayList<Comment> commentsList = Data.getInstance().getComments();
+//
+//             //Check if list is correct
+//             if(commentsList.size()>0){
+//                 if(happening.getId() != commentsList.get(0).getHappeningId()){
+//                     commentsList.clear();
+//                 }
+//             }
+//            final CommentListAdapter adapter = new CommentListAdapter(getContext(), R.layout.adapter_view_comment, commentsList);
+//        Data.getInstance().releaseWrite(this.toString());
+//
+//        addCommentBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showDialog(getActivity(), adapter,"Enter comment");
+//            }
+//        });
+//
+//        mListView.setAdapter(adapter);
+//
+//        getListViewSize(mListView);
+//    }
+//
+//    private void hideComments(){
+//        ListView mListView = (ListView) getView().findViewById(R.id.commentsListView);
+//        ArrayList<Comment> commentsList = new ArrayList<>();
+//
+//        commentsList.clear();
+//        final CommentListAdapter adapter = new CommentListAdapter(getContext(), R.layout.adapter_view_comment, commentsList);
+//        mListView.setAdapter(adapter);
+//
+//        getListViewSize(mListView);
+//    }
 
-        if (myListAdapter == null) {
-            //do nothing return null
-            return;
-        }
 
-        //set listAdapter in loop for getting final size
-        int totalHeight = 0;
-        for (int size = 0; size < myListAdapter.getCount(); size++) {
-            View listItem = myListAdapter.getView(size, null, myListView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight() + 60;
-        }
-        //setting listview item in adapter
-        ViewGroup.LayoutParams params = myListView.getLayoutParams();
-        int height = totalHeight + (myListView.getDividerHeight() * (myListAdapter.getCount() - 1));
-        height = (height>2000)? 2000:height;
-        params.height = height;
-        myListView.setLayoutParams(params);
-        // print height of adapter on log
-        Log.i("height of listItem:", String.valueOf(totalHeight));
-    }
+    private void showDialog(){
 
-    private void showComments() {
-         ListView mListView = (ListView) getView().findViewById(R.id.commentsListView);
-         Data.getInstance().acquireWrite(this.toString());
-             ArrayList<Comment> commentsList = Data.getInstance().getComments();
-
-             //Check if list is correct
-             if(commentsList.size()>0){
-                 if(happening.getId() != commentsList.get(0).getHappeningId()){
-                     commentsList.clear();
-                 }
-             }
-            final CommentListAdapter adapter = new CommentListAdapter(getContext(), R.layout.adapter_view_comment, commentsList);
-        Data.getInstance().releaseWrite(this.toString());
-
-        addCommentBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog(getActivity(), adapter,"Enter comment");
-            }
-        });
-
-        mListView.setAdapter(adapter);
-
-        getListViewSize(mListView);
-    }
-
-    private void hideComments(){
-        ListView mListView = (ListView) getView().findViewById(R.id.commentsListView);
-        ArrayList<Comment> commentsList = new ArrayList<>();
-
-        commentsList.clear();
-        final CommentListAdapter adapter = new CommentListAdapter(getContext(), R.layout.adapter_view_comment, commentsList);
-        mListView.setAdapter(adapter);
-
-        getListViewSize(mListView);
-    }
-
-
-    private void showDialog(final Activity activity, final CommentListAdapter commentListAdapter, String msg){
-
-        final Dialog dialog = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+        final Dialog dialog = new Dialog(getActivity(), android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
-        dialog.setContentView(R.layout.popup_postcomment);
+        dialog.setContentView(R.layout.popup_comments);
 
 
-        final TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
-        text.setText(msg);
+
+        Data.getInstance().acquireRead(this.toString());
+            ArrayList<Comment> list = Data.getInstance().getComments();
+            Data.getInstance().setUpdateCommentList(list);
+            //Get listview
+            final CommentListAdapter adapter = new CommentListAdapter(getContext(), R.layout.adapter_view_comment, list);
+        Data.getInstance().releaseRead(this.toString());
+
+        DbActions.getInstance().getComments(happening,getActivity(),adapter);
+
+        ListView mListView = (ListView) dialog.findViewById(R.id.commentsListView);
+        mListView.setAdapter(adapter);
 
         final EditText commentTxt = (EditText) dialog.findViewById(R.id.commentPopUpTextView);
 
         Button postBtn = (Button) dialog.findViewById(R.id.postCommentBtn);
         final ShowHappening showHappening = this;
+
         postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(addCommentRequestSent.get()) {
+                    Toast.makeText(getContext(),"In progress.",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    String text = commentTxt.getText().toString();
 
-                String text = commentTxt.getText().toString();
-
-                if(text.trim().length()>0 && text.length()<500){
-                    Comment comment = new Comment(happening.getId(), FirebaseAuth.getInstance().getCurrentUser().getEmail(),text,"Today","a while ago");
-                    DbActions.getInstance().addComment(comment,activity,commentListAdapter);
-                    dialog.dismiss();
+                    if (text.trim().length() > 0 && text.length() < 500) {
+                        Comment comment = new Comment(happening.getId(), FirebaseAuth.getInstance().getCurrentUser().getEmail(), text, "Today", "a while ago");
+                        addCommentRequestSent.set(true);
+                        DbActions.getInstance().addComment(comment, getActivity(), adapter,addCommentRequestSent);
+                    }
                 }
             }
         });
