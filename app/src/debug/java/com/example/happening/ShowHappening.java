@@ -198,6 +198,7 @@ public class ShowHappening extends Fragment {
 
         Data.getInstance().acquireRead(this.toString());
             ArrayList<Comment> list = Data.getInstance().getComments();
+            list.clear();
             Data.getInstance().setUpdateCommentList(list);
             //Get listview
             final CommentListAdapter adapter = new CommentListAdapter(getContext(), R.layout.adapter_view_comment, list);
