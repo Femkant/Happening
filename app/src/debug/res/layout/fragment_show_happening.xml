@@ -8,7 +8,7 @@
     android:background="?attr/backgroundcolor"
     tools:context=".ShowHappening">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -154,6 +154,32 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.273" />
 
+                    <TextView
+                        android:id="@+id/organizer"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="16dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/textview_border"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="Organizer"
+                        android:inputType="textPersonName"
+                        android:minHeight="35dp"
+                        android:textColor="?attr/textcolor"
+                        android:textSize="24sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.273" />
+
                     <LinearLayout
                         android:id="@+id/linearLayout"
                         android:layout_width="match_parent"
@@ -250,17 +276,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-
-                    <ListView
-                        android:id="@+id/commentsListView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:layout_editor_absoluteX="8dp"
-                        tools:layout_editor_absoluteY="443dp" />
-
-                </RelativeLayout>
+                    android:orientation="vertical"/>
 
                 <Button
                     android:id="@+id/addCommentBtn"
@@ -281,7 +297,7 @@
                     android:textStyle="italic" />
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
 

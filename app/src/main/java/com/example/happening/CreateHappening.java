@@ -13,11 +13,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.happening.DbStuff.Data;
 import com.example.happening.DbStuff.DbActions;
 import com.google.firebase.auth.FirebaseAuth;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
@@ -32,6 +35,7 @@ public class CreateHappening extends Fragment {
     private boolean check = true;
     private AlertDialog.Builder alert;
     private long delayTime = 0, delayDate = 0;
+    private AtomicBoolean requestSent = new AtomicBoolean(false);
 
     public CreateHappening() {
         // Required empty public constructor
@@ -174,7 +178,13 @@ public class CreateHappening extends Fragment {
                     time,
                     city,
                     description);
-            DbActions.getInstance().addHappeningToDB(happening,getActivity());
+            if(requestSent.get()){
+                Toast.makeText(getContext(),"In progress",Toast.LENGTH_LONG).show();
+            }
+            else {
+                requestSent.set(true);
+                DbActions.getInstance().addHappeningToDB(happening, getActivity(),requestSent);
+            }
 
         } else if (!check) {
             callAlert(errorString);

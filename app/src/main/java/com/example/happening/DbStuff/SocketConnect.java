@@ -12,8 +12,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * For connecting to server and send DB info
  */
@@ -25,7 +23,7 @@ public class SocketConnect extends AsyncTask<Void, Void, ReturnValue>{
     private ObjectOutputStream oOS;
     private ObjectInputStream oIS;
     private Happening happening;
-    private String command;
+    private Cmd command;
     private ReturnValue retVal = ReturnValue.GENERAL_FAILURE;
     private GetHappeningsRequest getHReq;
     private GetAttendRequest attendRequest;
@@ -50,32 +48,33 @@ public class SocketConnect extends AsyncTask<Void, Void, ReturnValue>{
             if(socket.isConnected()) {
                 switch (command) {
 
-                    case "addHappeningToDb":
+                    case ADD_HAPPENING_TO_DB:
                         addHappeningInt();
 
                         break;
 
-                    case "getHappenings":
+                    case GET_HAPPENINGS:
                         getHappeningsInt();
                         break;
 
-                    case "deleteAttend":
+                    case DELETE_ATTEND:
                         deleteAttendInt();
                         break;
 
-                    case "addAttend":
+                    case ADD_ATTEND:
                         addAttendInt();
                         break;
 
-                    case "addComment":
+                    case ADD_COMMENT:
                         addCommentsInt();
-                        Log.d(TAG, "doInBackground: ********************************************");
                         break;
 
-                    case "getComments":
+                    case GET_COMMENTS:
                         getCommentsInt();
                         break;
-                        
+                    case GET_ATTENDERS:
+                        getAttendersInt();
+                        break;
                     default:
                 }
             }
@@ -110,7 +109,7 @@ public class SocketConnect extends AsyncTask<Void, Void, ReturnValue>{
      */
     public void addHappening(Happening happening){
             this.happening = happening;
-            command = "addHappeningToDb";
+            command = Cmd.ADD_HAPPENING_TO_DB;
     }
 
     /**
@@ -131,7 +130,7 @@ public class SocketConnect extends AsyncTask<Void, Void, ReturnValue>{
      * @param getHReq
      */
     public void getHappenings( GetHappeningsRequest getHReq){
-        command = "getHappenings";
+        command = Cmd.GET_HAPPENINGS;
         this.getHReq = getHReq;
 
     }
@@ -163,7 +162,7 @@ public class SocketConnect extends AsyncTask<Void, Void, ReturnValue>{
      * @param attendRequest
      */
     public void deleteAttend(GetAttendRequest attendRequest){
-        command = "deleteAttend";
+        command = Cmd.DELETE_ATTEND;
         this.attendRequest = attendRequest;
     }
 
@@ -185,7 +184,7 @@ public class SocketConnect extends AsyncTask<Void, Void, ReturnValue>{
      * @param attendRequest
      */
     public void addAttend(GetAttendRequest attendRequest){
-        command = "addAttend";
+        command = Cmd.ADD_ATTEND;
         this.attendRequest = attendRequest;
     }
 
@@ -208,7 +207,7 @@ public class SocketConnect extends AsyncTask<Void, Void, ReturnValue>{
      */
     public void getComments(Happening happening){
         this.happening = happening;
-        command = "getComments";
+        command = Cmd.GET_COMMENTS;
     }
 
     /**
@@ -235,15 +234,44 @@ public class SocketConnect extends AsyncTask<Void, Void, ReturnValue>{
      * @param comment
      */
     public void addComment(Comment comment){
-        command = "addComment";
+        command = Cmd.ADD_COMMENT;
         this.comment = comment;
     }
 
+    /**
+     * Add comment to Db
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private void addCommentsInt() throws IOException,ClassNotFoundException{
         oOS.writeObject(command);
         oOS.flush();
         oOS.writeObject(comment);
         oOS.flush();
         retVal = (ReturnValue) oIS.readObject();
+    }
+
+    /**
+     * Get attenders to happening
+     * @param happening Happening to get attenders for
+     */
+    public void getAttenders(Happening happening){
+        command = Cmd.GET_ATTENDERS;
+        this.happening = happening;
+    }
+
+    private void getAttendersInt() throws IOException,ClassNotFoundException{
+        oOS.writeObject(command);
+        oOS.flush();
+        oOS.writeObject(happening);
+        oOS.flush();
+        ArrayList<String> attenders = (ArrayList<String>)oIS.readObject();
+
+        retVal = (ReturnValue) oIS.readObject();
+        if(retVal == ReturnValue.SUCCESS){
+            Data.getInstance().acquireWrite(this.toString());
+            Data.getInstance().setAttendersList(attenders);
+            Data.getInstance().releaseWrite(this.toString());
+        }
     }
 }

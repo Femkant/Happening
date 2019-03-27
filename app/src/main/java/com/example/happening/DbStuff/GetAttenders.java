@@ -1,52 +1,49 @@
 package com.example.happening.DbStuff;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.happening.CommonTools;
+import com.example.happening.AttendersListAdapter;
+import com.example.happening.Comment;
+import com.example.happening.CommentListAdapter;
 import com.example.happening.Happening;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * Deletes attend in DB
- */
-public class DeleteAttend implements Runnable{
-
-    private GetAttendRequest attendRequest;
+public class GetAttenders implements Runnable {
     private final Activity mainActivity;
-    private AtomicBoolean attendRequestInProgress;
-    private Button attendButton;
-    private Happening happening;
+    private final Happening happening;
+    private AttendersListAdapter attendersListAdapter;
 
-    public DeleteAttend(Activity mainActivity, GetAttendRequest attendRequest, AtomicBoolean attendRequestInProgress, Button attendButton, Happening happening) {
-        this.attendRequest = attendRequest;
+    public GetAttenders(Activity mainActivity, Happening happening, AttendersListAdapter attendersListAdapter) {
         this.mainActivity = mainActivity;
-        this.attendRequestInProgress = attendRequestInProgress;
-        this.attendButton = attendButton;
         this.happening = happening;
+        this.attendersListAdapter = attendersListAdapter;
     }
 
     @Override
     public void run() {
-
         final ReturnValue retVal;
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(mainActivity != null) {
+                    Toast.makeText(mainActivity, "Downloading attenders", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         SocketConnect sC = new SocketConnect();
-        sC.deleteAttend(attendRequest);
+        sC.getAttenders(happening);
         AsyncTask aT = sC.execute();
-
         try {
+            String retValMessage = "Something is very wrong";
             retVal = (ReturnValue) aT.get();
-            String retValMessage = "";
+
             switch(retVal){
                 case SUCCESS:
-                    retValMessage = "Attend deleted Successfully!";
-
+                    retValMessage = "Download complete!";
                     break;
 
                 case NO_CONN_TO_DB:
@@ -68,30 +65,22 @@ public class DeleteAttend implements Runnable{
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
                     if(retVal == ReturnValue.SUCCESS){
-                        attendButton.setText("Attend");
-                        //attendButton.setTextColor(Color.parseColor("#008000"));
-
-                        happening.setAttending(false);
-
                         Data.getInstance().acquireWrite(this.toString());
-                            Data.getInstance().getMyHappeningsList().remove(happening);
-                            Data.getInstance().getAllHappeningsList().add(happening);
-                            Collections.sort(Data.getInstance().getAllHappeningsList(), CommonTools.getCompByDate());
+                        ArrayList<String> listToUpdate = Data.getInstance().getUpdateAttendersList();
+                        listToUpdate.clear();
+                        for (String s: Data.getInstance().getAttendersList()){
+                            listToUpdate.add(s);
+                        }
+                        attendersListAdapter.notifyDataSetChanged();
                         Data.getInstance().releaseWrite(this.toString());
-
                     }
-
                     Toast.makeText(mainActivity, message, Toast.LENGTH_LONG).show();
                 }
             });
         }
         catch (InterruptedException | ExecutionException e){
             e.printStackTrace();
-        }finally {
-            attendRequestInProgress.set(false);
         }
-
     }
 }

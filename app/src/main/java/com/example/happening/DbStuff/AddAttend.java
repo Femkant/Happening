@@ -71,7 +71,7 @@ public class AddAttend implements Runnable{
                     if(retVal == ReturnValue.SUCCESS){
 
                         attendButton.setText("Unattend");
-                        attendButton.setTextColor(Color.parseColor("#800000"));
+                        //attendButton.setTextColor(Color.parseColor("#800000"));
 
                         happening.setAttending(true);
 

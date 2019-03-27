@@ -1,17 +1,12 @@
 package com.example.happening;
 
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +14,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,6 +77,9 @@ public class ShowHappening extends Fragment {
         TextView city = (TextView) view.findViewById(R.id.city);
         city.setText(happening.getCity());
 
+        TextView organizer = (TextView) view.findViewById(R.id.organizer);
+        organizer.setText(happening.getUserName());
+
         description.setMovementMethod(new ScrollingMovementMethod());
 
         //DbActions.getInstance().getComments(happening,getActivity(),getCommentRequestSent);
@@ -90,12 +87,12 @@ public class ShowHappening extends Fragment {
 
         if(happening.isAttending()){
             attendButton.setText("Unattend");
-            attendButton.setTextColor(Color.parseColor("#800000"));
+            //attendButton.setTextColor(Color.parseColor("#800000"));
         }
 
         else{
             attendButton.setText("Attend");
-            attendButton.setTextColor(Color.parseColor("#008000"));
+            //attendButton.setTextColor(Color.parseColor("#008000"));
         }
 
         attendButton.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +106,7 @@ public class ShowHappening extends Fragment {
         attendersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                attendersButtonClicked();
+                showAttenders();
             }
         });
 
@@ -122,23 +119,7 @@ public class ShowHappening extends Fragment {
         commentsTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
-//                if (commentsShowing) {
-//                    commentsTitle.setText("Show comments");
-//                    commentsShowing = false;
-//                    addCommentBtn.setVisibility(View.INVISIBLE);
-//                    hideComments();
-//                }else {
-//                    if(getCommentRequestSent.get()) {
-//                        Toast.makeText(getContext(),"Comments are downloading.. try in a second", Toast.LENGTH_LONG).show();
-//                    }
-//                    else {
-//                        commentsTitle.setText("Hide comments");
-//                        commentsShowing = true;
-//                        addCommentBtn.setVisibility(View.VISIBLE);
-//                        showComments();
-//                    }
-//                }
+                showComments();
             }
         });
 
@@ -169,87 +150,50 @@ public class ShowHappening extends Fragment {
         }
     }
 
-    private void attendersButtonClicked() {
+    /**
+     * Show attenders of happening
+     */
+    private void showAttenders() {
+        final Dialog dialog = new Dialog(getActivity(), android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.popup_attenders);
 
-        String message = "";
 
-        AlertDialog.Builder alert;
-        alert = new AlertDialog.Builder(getContext());
-        alert.setTitle("Attenders");
-        alert.setMessage(message);
-        alert.setNeutralButton("OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alert.show();
+        ArrayList<String> list = new ArrayList<>();
+
+        Data.getInstance().acquireRead(this.toString());
+        Data.getInstance().setUpdateAttendersList(list);
+
+        //Get listview
+        final AttendersListAdapter adapter = new AttendersListAdapter(getContext(), R.layout.adapter_view_users, list);
+        Data.getInstance().releaseRead(this.toString());
+
+        DbActions.getInstance().getAttenders(happening,getActivity(),adapter);
+
+        ListView mListView = (ListView) dialog.findViewById(R.id.attendersListView);
+        mListView.setAdapter(adapter);
+
+        final EditText commentTxt = (EditText) dialog.findViewById(R.id.commentPopUpTextView);
+
+        Button closeAttendersBtn = (Button) dialog.findViewById(R.id.closeAttendersBtn);
+        final ShowHappening showHappening = this;
+
+        closeAttendersBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
     }
 
-//    public static void getListViewSize(ListView myListView) {
-//        ListAdapter myListAdapter = myListView.getAdapter();
-//
-//        if (myListAdapter == null) {
-//            //do nothing return null
-//            return;
-//        }
-//
-//        //set listAdapter in loop for getting final size
-//        int totalHeight = 0;
-//        for (int size = 0; size < myListAdapter.getCount(); size++) {
-//            View listItem = myListAdapter.getView(size, null, myListView);
-//            listItem.measure(0, 0);
-//            totalHeight += listItem.getMeasuredHeight() + 60;
-//        }
-//        //setting listview item in adapter
-//        ViewGroup.LayoutParams params = myListView.getLayoutParams();
-//        int height = totalHeight + (myListView.getDividerHeight() * (myListAdapter.getCount() - 1));
-//        height = (height>2000)? 2000:height;
-//        params.height = height;
-//        myListView.setLayoutParams(params);
-//        // print height of adapter on log
-//        Log.i("height of listItem:", String.valueOf(totalHeight));
-//    }
-//
-//    private void showComments() {
-//         ListView mListView = (ListView) getView().findViewById(R.id.commentsListView);
-//         Data.getInstance().acquireWrite(this.toString());
-//             ArrayList<Comment> commentsList = Data.getInstance().getComments();
-//
-//             //Check if list is correct
-//             if(commentsList.size()>0){
-//                 if(happening.getId() != commentsList.get(0).getHappeningId()){
-//                     commentsList.clear();
-//                 }
-//             }
-//            final CommentListAdapter adapter = new CommentListAdapter(getContext(), R.layout.adapter_view_comment, commentsList);
-//        Data.getInstance().releaseWrite(this.toString());
-//
-//        addCommentBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showDialog(getActivity(), adapter,"Enter comment");
-//            }
-//        });
-//
-//        mListView.setAdapter(adapter);
-//
-//        getListViewSize(mListView);
-//    }
-//
-//    private void hideComments(){
-//        ListView mListView = (ListView) getView().findViewById(R.id.commentsListView);
-//        ArrayList<Comment> commentsList = new ArrayList<>();
-//
-//        commentsList.clear();
-//        final CommentListAdapter adapter = new CommentListAdapter(getContext(), R.layout.adapter_view_comment, commentsList);
-//        mListView.setAdapter(adapter);
-//
-//        getListViewSize(mListView);
-//    }
-
-
-    private void showDialog(){
+    /**
+     * Shows comments
+     */
+    private void showComments(){
 
         final Dialog dialog = new Dialog(getActivity(), android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

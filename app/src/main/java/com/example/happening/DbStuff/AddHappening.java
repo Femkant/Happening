@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.example.happening.Happening;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Class to run thread to add happenning to DB
@@ -13,15 +14,17 @@ import java.util.concurrent.ExecutionException;
 public class AddHappening implements Runnable {
     private Happening happening;
     private final Activity mainActivity;
+    private AtomicBoolean requestSent;
 
     /**
      * Constructor Add happening
      * @param happening to add
      * @param activity activity for toast
      */
-    public AddHappening(Happening happening, Activity activity){
+    public AddHappening(Happening happening, Activity activity, AtomicBoolean requestSent){
         this.happening = happening;
         this.mainActivity = activity;
+        this.requestSent = requestSent;
     }
 
     @Override
@@ -66,6 +69,9 @@ public class AddHappening implements Runnable {
         }
         catch (InterruptedException | ExecutionException e){
             e.printStackTrace();
+        }
+        finally {
+            requestSent.set(false);
         }
     }
 }

@@ -3,15 +3,15 @@ package com.example.happening.DbStuff;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.widget.Toast;
-
 import com.example.happening.Comment;
 import com.example.happening.CommentListAdapter;
 import com.example.happening.Happening;
-
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Gets comments from database
+ */
 public class GetComments implements Runnable {
     private final Activity mainActivity;
     private final Happening happening;
