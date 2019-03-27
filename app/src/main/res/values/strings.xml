@@ -122,8 +122,8 @@
     <string name="attend">Attend happening</string>
     <string name="filter">Filter</string>
     <string name="members">attenders</string>
-    <string name="comments">Show comments</string>
-
+    <string name="comments">Comments</string>
+    <string name="comments2">Show comments 2</string>
     <string-array name="filter_arrays">
         <item>Title</item>
         <item>Location</item>

@@ -34,11 +34,9 @@ public class ShowHappening extends Fragment {
 
     private Button attendButton;
     private ImageButton attendersButton;
-    private boolean commentsShowing = false;
     private Happening happening;
     private AtomicBoolean attendRequestSent = new AtomicBoolean(false);
     private AtomicBoolean addCommentRequestSent = new AtomicBoolean(false);
-    private AtomicBoolean getCommentRequestSent = new AtomicBoolean(false);
     private Button addCommentBtn;
 
     public ShowHappening() {
@@ -82,7 +80,6 @@ public class ShowHappening extends Fragment {
 
         description.setMovementMethod(new ScrollingMovementMethod());
 
-        //DbActions.getInstance().getComments(happening,getActivity(),getCommentRequestSent);
         attendButton = (Button) view.findViewById(R.id.attend);
 
         if(happening.isAttending()){
@@ -109,9 +106,6 @@ public class ShowHappening extends Fragment {
                 showAttenders();
             }
         });
-
-        addCommentBtn = (Button) view.findViewById(R.id.addCommentBtn);
-        addCommentBtn.setVisibility(View.INVISIBLE);
 
         final Button commentsTitle = (Button) view.findViewById(R.id.commentsTitle);
         commentsTitle.setText("Show comments");

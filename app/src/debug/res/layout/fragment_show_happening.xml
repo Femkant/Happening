@@ -8,15 +8,17 @@
     android:background="?attr/backgroundcolor"
     tools:context=".ShowHappening">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
+        android:nestedScrollingEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:nestedScrollingEnabled="true">
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -129,32 +131,6 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/city"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="16dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:background="@drawable/textview_border"
-                        android:ems="10"
-                        android:gravity="center"
-                        android:hint="@string/city"
-                        android:inputType="textPersonName"
-                        android:minHeight="35dp"
-                        android:textColor="?attr/textcolor"
-                        android:textSize="24sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.273" />
-
-                    <TextView
                         android:id="@+id/organizer"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -218,6 +194,32 @@
 
                     </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/city"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="16dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/textview_border"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="@string/city"
+                        android:inputType="textPersonName"
+                        android:minHeight="35dp"
+                        android:textColor="?attr/textcolor"
+                        android:textSize="24sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.273" />
+
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -235,6 +237,32 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
+                        <Button
+                            android:id="@+id/commentsTitle"
+                            android:layout_width="150dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="12dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginBottom="8dp"
+                            android:backgroundTint="?attr/buttoncolor"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="@string/comments"
+                            android:textAllCaps="false"
+                            android:textColor="?attr/textcolor"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/attend"
+                            app:layout_constraintStart_toEndOf="@+id/attendersButton"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.375" />
 
                         <Button
                             android:id="@+id/attend"
@@ -256,48 +284,9 @@
 
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/commentsTitle"
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="15dp"
-                    android:backgroundTint="?attr/buttoncolor"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/comments"
-                    android:textAllCaps="false"
-                    android:textColor="?attr/textcolor"
-                    android:textSize="18sp"
-                    android:textStyle="italic" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"/>
-
-                <Button
-                    android:id="@+id/addCommentBtn"
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:backgroundTint="?attr/buttoncolor"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="Comment"
-                    android:textAllCaps="false"
-                    android:textColor="?attr/textcolor"
-                    android:textSize="18sp"
-                    android:textStyle="italic" />
             </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
 

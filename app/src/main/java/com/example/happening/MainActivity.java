@@ -128,23 +128,26 @@ public class MainActivity extends AppCompatActivity {
         emailLogIn = (EditText)findViewById(R.id.emailLogIn);
         passwordLogIn = (EditText)findViewById(R.id.passwordLogIn);
 
+        if(emailLogIn.getText().toString().trim().length()>0 && passwordLogIn.getText().toString().trim().length()>0) {
+            (auth.signInWithEmailAndPassword(emailLogIn.getText().toString(), passwordLogIn.getText().toString()))
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
 
-        (auth.signInWithEmailAndPassword(emailLogIn.getText().toString(), passwordLogIn.getText().toString()))
-        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-
-                    Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
-                    Intent myIntent = new Intent(MainActivity.this, ToolBar.class);
-                    startActivityForResult(myIntent, 0);
-                }
-                else {
-                    Log.e("ERROR", task.getException().toString());
-                    Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+                                Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
+                                Intent myIntent = new Intent(MainActivity.this, ToolBar.class);
+                                startActivityForResult(myIntent, 0);
+                            } else {
+                                Log.e("ERROR", task.getException().toString());
+                                Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Must enter login credentials.",Toast.LENGTH_LONG).show();
+        }
     }
 
 
