@@ -189,7 +189,7 @@ public class ToolBar extends AppCompatActivity
 
 
                         ShareLinkContent content = new ShareLinkContent.Builder()
-                                .setContentUrl(Uri.parse("www.facebook.com"))
+                                .setContentUrl(Uri.parse("https://github.com/Femkant/Happening"))
                                 .build();
                         shareDialog.show(content);
                     }
